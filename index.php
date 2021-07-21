@@ -7,5 +7,6 @@
 <body>
     <?php include 'utils/header.php'; ?>
     <h1>Hello</h1>
+    <?php include 'utils/footer.php'; ?>
 </body>
 </html>

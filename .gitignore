@@ -1,7 +1,6 @@
 .dist
 .idea
 .vscode
-.sql
 *.log
 *.rar
 *.zip
