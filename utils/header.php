@@ -35,6 +35,9 @@
                     <div class="col">
                     <a href="/AeroClub/sign_in.php"><button type="button" class="btn">Inscription</button></a>
                     </div>
+                    <div class="col">
+                    <a href="/AeroClub/log_in_trainers.php"><button type="button" class="btn">Connexion formateurs</button></a>
+                    </div>
                 </div>
             <?php } ?>
         </div>

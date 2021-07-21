@@ -25,6 +25,15 @@
                     <input type="email" class="form-control" id="email" placeholder="Votre mail..." name="email" required>
                 </div>
                 <div class="form-group mb-3">
+                    <label for="level">Niveau de formation</label></br>
+                    <select class="custom-select" name="level" id="level">
+                        <option value="Aucun Brevet" selected>Aucun Brevet</option>
+                        <option value="Brevet de Base">Brevet de Base</option>
+                        <option value="Licence Pilote d'Avion Léger">Licence Pilote d'Avion Léger</option>
+                        <option value="Brevet de Pilote Privé">Brevet de Pilote Privé</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
                     <label for="password">Mot de passe</label>
                     <input type="password" class="form-control" id="password" placeholder="Votre mot de passe..." name="password" required>
                 </div>
