@@ -9,9 +9,9 @@
         <div class="text-end">
             <?php if (isset($_SESSION['user'])) { ?>
                 <div class="row">
-                    <?php if ($_SESSION['user']['rank'] == 'staff') { ?>
+                    <?php if ($_SESSION['user']['rank'] == 'trainer') { ?>
                     <div class="col">
-                        <a href="/QuickBaluchon/QuickBaluchon/backend/staff_account.php"><button type="button" class="btn btn-warning"><?php echo $site->headers->header->itemClientSpace->staff; ?></button></a>
+                        <a href="/QuickBaluchon/QuickBaluchon/backend/staff_account.php"><button type="button" class="btn btn-warning">Espace Formateur</button></a>
                     </div>
                     <?php } else if($_SESSION['user']['rank'] == 'client') { ?>
                     <div class="col">

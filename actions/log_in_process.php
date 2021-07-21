@@ -18,7 +18,7 @@ if (count($results) == 0) {
 	$mail = $_POST['email'];
 
     session_start();
-    $_SESSION['user'] = array('mail' => $mail);
+    $_SESSION['user'] = array('mail' => $mail,'rank' => 'member');
 
     header('location: ../index.php');
     exit();	
