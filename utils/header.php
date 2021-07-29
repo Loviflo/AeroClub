@@ -13,9 +13,9 @@
                     <div class="col">
                         <a href="/Aeroclub/trainer_space.php"><button type="button" class="btn btn-warning">Espace Formateur</button></a>
                     </div>
-                    <?php } else if($_SESSION['user']['rank'] == 'client') { ?>
+                    <?php } else if($_SESSION['user']['rank'] == 'trainee') { ?>
                     <div class="col">
-                        <a href="/QuickBaluchon/QuickBaluchon/client_space.php"><button type="button" class="btn btn-warning"><?php echo $site->headers->header->itemClientSpace->client; ?></button></a>
+                        <a href="/Aeroclub/member_space.php"><button type="button" class="btn btn-warning">Espace Membre</button></a>
                     </div>
                     <?php } else if($_SESSION['user']['rank'] == 'deliveryman') { ?>
                     <div class="col">
