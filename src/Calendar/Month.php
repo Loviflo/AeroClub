@@ -1,5 +1,6 @@
 <?php
 
+namespace Calendar;
 
 class Month
 {
@@ -35,7 +36,7 @@ class Month
      * Retourne le premier jour du mois
      */
 
-    public function getFirstDay(): DateTime
+    public function getFirstDay(): \DateTime
     {
         return new \DateTime("{$this->year}-{$this->month}-01");
     }
@@ -72,7 +73,7 @@ class Month
      * @return bool
      */
 
-    public function withinMonth(DateTime $date): bool
+    public function withinMonth(\DateTime $date): bool
     {
         return $this->getFirstDay()->format('Y-m') === $date->format('Y-m');
     }
