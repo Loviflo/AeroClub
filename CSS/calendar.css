@@ -10,7 +10,7 @@
   height: 5%;
 }
 
-.calendar__table .calendar__hours {
+.calendar__hours {
   width: 5%;
 }
 
@@ -30,4 +30,8 @@
 
 .calendar__othermonth .calendar__day {
   opacity: 0.5;
+}
+
+.calendar__activity {
+  background-color:#8edcf2;
 }

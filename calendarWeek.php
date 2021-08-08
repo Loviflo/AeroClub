@@ -23,7 +23,6 @@
     $activities = new Calendar\Activities();
     $week = new Calendar\Week($_GET["year"] ?? null, $_GET["week"] ?? null);
     $start = $week->getFirstDay();
-    $weeks = $week->getWeeks();
     $end = (clone $start)->modify('+ 6 days');
     $activities = $activities->getActivitiesBetweenByDay($start, $end);
     ?>
@@ -37,7 +36,7 @@
     </div>
 
 
-    <table class="table calendar__table calendar__table--<?= $weeks; ?>weeks">
+    <table class="table calendar__table">
         <?php
         /*$bdd = getDatabaseConnection();
     $q = 'SELECT TO_DO, TO_DO FROM TO_DO';
@@ -48,11 +47,11 @@
             <tr>
                 <td class="calendar__hours">
                     <?php if ($i === 0) : ?>
-                        <h2>Heures</h2>
+                        <h3 style="text-align: center;">Heures</h3>
                     <?php endif; ?>
                     <?php if ($i > 0) : ?>
-                        <h4><?= 2 * $i + 8 ?>h</h4>
-                        <h4><?= 2 * $i + 10 ?>h</h4>
+                        <h4 style="text-align: center;"><?= 2 * $i + 8 ?>h</h4>
+                        <h4 style="text-align: center;"><?= 2 * $i + 10 ?>h</h4>
                     <?php endif; ?>
                 </td>
                 <?php foreach ($week->days as $k => $day) :
@@ -65,9 +64,15 @@
                             <div class="calendar__day"><?= $date->format('d/m'); ?></div>
                         <?php endif; ?>
                         <?php foreach ($activitiesForDay as $activity) : ?>
-                            <div class="calendar__activity">
-                                <?= (new DateTime($activity['start']))->format('H\hi') ?> - <?= (new DateTime($activity['end']))->format('H\hi') ?> : <a href="activity.php?id=<?= $activity['id'] ?>"><?= $activity['type'] ?></a>
-                            </div>
+                            <?php for ($j = 1; $j < 6; $j++) : ?>
+                                <?php if ((new DateTime($activity['start']))->format('H') == 2 * $j + 8) {
+                                    if ($i === $j) { ?>
+                                        <div class="calendar__activity">
+                                            <?= (new DateTime($activity['start']))->format('H\hi') ?> - <?= (new DateTime($activity['end']))->format('H\hi') ?> : <a href="activity.php?id=<?= $activity['id'] ?>"><?= $activity['type'] ?></a>
+                                        </div>
+                                <?php }
+                                } ?>
+                            <?php endfor; ?>
                         <?php endforeach; ?>
                         <?/*php foreach ($results as $key => $user) {
                         if ($user["TO_DO"] == null){*/ ?>
