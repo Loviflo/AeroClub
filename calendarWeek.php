@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <?php include 'utils/head.php'; ?>
+    <title>Réservation</title>
+    <link rel="stylesheet" href="CSS/calendar.css">
+    <?php
+    ini_set("display_errors", 1);
+    ?>
+</head>
+
+<body>
+    <?php include 'utils/header.php'; ?>
+    <?php
+
+    require_once('utils/database.php');
+
+
+    require 'src/Calendar/Week.php';
+    // require 'src/Calendar/week.php';
+    require 'src/Calendar/Activities.php';
+    $activities = new Calendar\Activities();
+    $week = new Calendar\Week($_GET["year"] ?? null, $_GET["week"] ?? null);
+    $start = $week->getFirstDay();
+    $weeks = $week->getWeeks();
+    $end = (clone $start)->modify('+ 6 days');
+    $activities = $activities->getActivitiesBetweenByDay($start, $end);
+    ?>
+
+    <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
+        <h1><?= $week->toString(); ?></h1>
+        <div>
+            <a href="?week=<?= $week->previousWeek()->week; ?>&year=<?= $week->previousWeek()->year; ?>" class="btn btn-primary">&lt;</a>
+            <a href="?week=<?= $week->nextWeek()->week; ?>&year=<?= $week->nextWeek()->year; ?>" class="btn btn-primary">&gt;</a>
+        </div>
+    </div>
+
+
+    <table class="table calendar__table calendar__table--<?= $weeks; ?>weeks">
+        <?php
+        /*$bdd = getDatabaseConnection();
+    $q = 'SELECT TO_DO, TO_DO FROM TO_DO';
+    $req = $bdd->prepare($q);
+    $req->execute();
+    $results = $req->fetchAll();*/
+        for ($i = 0; $i < 6; $i++) : ?>
+            <tr>
+                <td class="calendar__hours">
+                    <?php if ($i === 0) : ?>
+                        <h2>Heures</h2>
+                    <?php endif; ?>
+                    <?php if ($i > 0) : ?>
+                        <h4><?= 2 * $i + 8 ?>h</h4>
+                        <h4><?= 2 * $i + 10 ?>h</h4>
+                    <?php endif; ?>
+                </td>
+                <?php foreach ($week->days as $k => $day) :
+                    $date = (clone $start)->modify("+" . $k . " days");
+                    $activitiesForDay = $activities[$date->format('Y-m-d')] ?? [];
+                ?>
+                    <td>
+                        <?php if ($i === 0) : ?>
+                            <div class="calendar__weekday"><?= $day; ?></div>
+                            <div class="calendar__day"><?= $date->format('d/m'); ?></div>
+                        <?php endif; ?>
+                        <?php foreach ($activitiesForDay as $activity) : ?>
+                            <div class="calendar__activity">
+                                <?= (new DateTime($activity['start']))->format('H\hi') ?> - <?= (new DateTime($activity['end']))->format('H\hi') ?> : <a href="activity.php?id=<?= $activity['id'] ?>"><?= $activity['type'] ?></a>
+                            </div>
+                        <?php endforeach; ?>
+                        <?/*php foreach ($results as $key => $user) {
+                        if ($user["TO_DO"] == null){*/ ?>
+                        <!-- <a href='actions/new_reservation.php'><button type='button' class='btn btn-primary'>Réservez</button></a> -->
+                        <? //}else{
+                        ?>
+                        <!-- <button type='button' class='btn btn-danger'>Créneau indisponible</button></a> -->
+                        <? //}
+                        //}
+                        ?>
+
+                    </td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endfor; ?>
+
+    </table>
+    <?php include 'utils/footer.php'; ?>
+</body>
+
+</html>
