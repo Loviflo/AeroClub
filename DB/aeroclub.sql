@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 04, 2021 at 03:35 PM
+-- Generation Time: Aug 08, 2021 at 02:36 PM
 -- Server version: 5.7.24
--- PHP Version: 7.2.14
+-- PHP Version: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,10 +31,22 @@ SET time_zone = "+00:00";
 CREATE TABLE `activities` (
   `id` int(11) NOT NULL,
   `type` enum('BREVET','ULM','OTHER') NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
   `cost` int(11) NOT NULL,
+  `id_member` int(11) NOT NULL,
   `id_trainer` int(11) NOT NULL,
   `id_plane` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `activities`
+--
+
+INSERT INTO `activities` (`id`, `type`, `start`, `end`, `cost`, `id_member`, `id_trainer`, `id_plane`) VALUES
+(2, 'BREVET', '2021-08-08 16:00:00', '2021-08-08 18:00:00', 323, 5, 1, 1),
+(3, 'BREVET', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323, 5, 1, 1),
+(4, 'BREVET', '2021-08-08 14:00:00', '2021-08-08 16:00:00', 323, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -73,6 +85,16 @@ CREATE TABLE `planes` (
   `purpose` enum('TRAINING','RECREATIONAL','ULM') NOT NULL,
   `model` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `planes`
+--
+
+INSERT INTO `planes` (`id`, `purpose`, `model`) VALUES
+(1, 'TRAINING', 'Robin DR 400 120cv FGDES'),
+(2, 'RECREATIONAL', 'PIPER PA 28 180 cv FGIDI'),
+(3, 'ULM', 'Model 1'),
+(4, 'ULM', 'Model 2');
 
 -- --------------------------------------------------------
 
@@ -117,14 +139,15 @@ INSERT INTO `trainers` (`id`, `firstname`, `lastname`, `mail`, `password`) VALUE
 --
 ALTER TABLE `activities`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_trainer` (`id_trainer`),
-  ADD KEY `id_plane` (`id_plane`);
+  ADD KEY `fk_member` (`id_member`),
+  ADD KEY `fk_trainer` (`id_trainer`) USING BTREE,
+  ADD KEY `fk_plane` (`id_plane`) USING BTREE;
 
 --
 -- Indexes for table `members`
 --
 ALTER TABLE `members`
-  ADD PRIMARY KEY (`id`,`mail`);
+  ADD PRIMARY KEY (`id`,`mail`) USING BTREE;
 
 --
 -- Indexes for table `planes`
@@ -154,7 +177,7 @@ ALTER TABLE `trainers`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `members`
@@ -166,7 +189,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `planes`
 --
 ALTER TABLE `planes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `trainers`
@@ -182,6 +205,7 @@ ALTER TABLE `trainers`
 -- Constraints for table `activities`
 --
 ALTER TABLE `activities`
+  ADD CONSTRAINT `fk_member` FOREIGN KEY (`id_member`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_plane` FOREIGN KEY (`id_plane`) REFERENCES `planes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `id_trainer` FOREIGN KEY (`id_trainer`) REFERENCES `trainers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
