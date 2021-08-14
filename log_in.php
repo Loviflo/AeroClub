@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <?php include 'utils/head.php'; ?>
-        <title><?php echo $site->pagesClientSide->signInClient->pageTitle; ?></title>
+        <title>Connexion Membre</title>
     </head>
     <body>
         <?php include 'utils/header.php'; ?>

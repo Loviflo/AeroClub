@@ -12,9 +12,9 @@ class Week
     public $year;
 
     /**
-     * Month constructor
-     * @param int $month Le mois compris entre 1 et 12
+     * Week constructor
      * @param int $year L'année
+     * @param int $week La semaine comprise entre 1 et 53
      * @throws Exception
      */
 
@@ -33,7 +33,7 @@ class Week
     }
 
     /**
-     * Retourne le premier jour du mois
+     * Retourne le premier jour de la semaine
      */
 
     public function getFirstDay(): \DateTime
@@ -43,7 +43,7 @@ class Week
     }
 
     /**
-     * Retourne le mois en toute lettre
+     * Retourne la date en toute lettre
      * @return string
      */
 

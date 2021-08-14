@@ -20,29 +20,32 @@
     require 'src/Calendar/Week.php';
     // require 'src/Calendar/week.php';
     require 'src/Calendar/Activities.php';
+    $type = $_GET['type'];
     $activities = new Calendar\Activities();
+    $hours = new Calendar\Activities();
     $week = new Calendar\Week($_GET["year"] ?? null, $_GET["week"] ?? null);
     $start = $week->getFirstDay();
     $end = (clone $start)->modify('+ 6 days');
-    $activities = $activities->getActivitiesBetweenByDay($start, $end);
+    $activities = $activities->getActivitiesBetweenByDay($start, $end, $type);
+    $hours = $hours->getActivitiesByHour($start, $end, $type);
     ?>
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
         <h1><?= $week->toString(); ?></h1>
         <div>
-            <a href="?week=<?= $week->previousWeek()->week; ?>&year=<?= $week->previousWeek()->year; ?>" class="btn btn-primary">&lt;</a>
-            <a href="?week=<?= $week->nextWeek()->week; ?>&year=<?= $week->nextWeek()->year; ?>" class="btn btn-primary">&gt;</a>
+            <a href="?week=<?= $week->previousWeek()->week; ?>&year=<?= $week->previousWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&lt;</a>
+            <a href="?week=<?= $week->nextWeek()->week; ?>&year=<?= $week->nextWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&gt;</a>
         </div>
     </div>
 
-
     <table class="table calendar__table">
+
         <?php
-        /*$bdd = getDatabaseConnection();
-    $q = 'SELECT TO_DO, TO_DO FROM TO_DO';
-    $req = $bdd->prepare($q);
-    $req->execute();
-    $results = $req->fetchAll();*/
+        // var_dump($hours);
+        $length = count($hours);
+        $hourIter = [];
+        $dayIter = [];
+        $x = 1;
         for ($i = 0; $i < 6; $i++) : ?>
             <tr>
                 <td class="calendar__hours">
@@ -58,36 +61,32 @@
                     $date = (clone $start)->modify("+" . $k . " days");
                     $activitiesForDay = $activities[$date->format('Y-m-d')] ?? [];
                 ?>
-                    <td>
+                    <td <?php foreach ($hours as $hour) {
+                            if ($i == $hour[1][0] && $k == $hour[0][0]) {
+                                echo 'style="background-color: grey;"';
+                                $hourIter[$x] = $hour[1][0];
+                                $dayIter[$x] = $hour[0][0];
+                                $x++;
+                            } else /*if (count($hourIter) == $length) {
+                                for ($l = 1; $l < $length; $l++) { */
+                                if ($hour[1][0] !== $i && $hour[0][0] !== $k && $i !== 0) { ?> onmouseover=style.backgroundColor='blue' ; onmouseout=style.backgroundColor='' ; onclick=window.location.href="actions/add_activity.php?hour=<?= $i ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>" <?php }
+                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                //}
+                                                                                                                                                                                                                                                                                                //}
+
+
+
+                                                                                                                                                                                                                                                                                                            ?>>
                         <?php if ($i === 0) : ?>
                             <div class="calendar__weekday"><?= $day; ?></div>
                             <div class="calendar__day"><?= $date->format('d/m'); ?></div>
                         <?php endif; ?>
-                        <?php foreach ($activitiesForDay as $activity) : ?>
-                            <?php for ($j = 1; $j < 6; $j++) : ?>
-                                <?php if ((new DateTime($activity['start']))->format('H') == 2 * $j + 8) {
-                                    if ($i === $j) { ?>
-                                        <div class="calendar__activity">
-                                            <?= (new DateTime($activity['start']))->format('H\hi') ?> - <?= (new DateTime($activity['end']))->format('H\hi') ?> : <a href="activity.php?id=<?= $activity['id'] ?>"><?= $activity['type'] ?></a>
-                                        </div>
-                                <?php }
-                                } ?>
-                            <?php endfor; ?>
-                        <?php endforeach; ?>
-                        <?/*php foreach ($results as $key => $user) {
-                        if ($user["TO_DO"] == null){*/ ?>
-                        <!-- <a href='actions/new_reservation.php'><button type='button' class='btn btn-primary'>Réservez</button></a> -->
-                        <? //}else{
-                        ?>
-                        <!-- <button type='button' class='btn btn-danger'>Créneau indisponible</button></a> -->
-                        <? //}
-                        //}
-                        ?>
-
                     </td>
                 <?php endforeach; ?>
             </tr>
-        <?php endfor; ?>
+        <?php endfor;
+        // echo count($hourIter);
+        ?>
 
     </table>
     <?php include 'utils/footer.php'; ?>

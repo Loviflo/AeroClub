@@ -1,50 +1,62 @@
-<header class="p-1 text-white" style="background: rgb(103,66,50);color: rgb(255,255,255);">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-    <div class="text-start">
-        <a href="/QuickBaluchon/QuickBaluchon/index.php" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-            <img src="/QuickBaluchon/QuickBaluchon/img/Logo_SPS.png" style="width:20;height:16" alt="Logo"/>
-        </a>
-    </div>
-
-        <div class="text-end">
-            <?php if (isset($_SESSION['user'])) { ?>
-                <div class="row">
-                    <?php if ($_SESSION['user']['rank'] == 'trainer') { ?>
-                    <div class="col">
-                        <a href="/Aeroclub/trainer_space.php"><button type="button" class="btn btn-warning">Espace Formateur</button></a>
-                    </div>
-                    <?php } else if($_SESSION['user']['rank'] == 'trainee') { ?>
-                    <div class="col">
-                        <a href="/Aeroclub/member_space.php"><button type="button" class="btn btn-warning">Espace Membre</button></a>
-                    </div>
-                    <?php } else if($_SESSION['user']['rank'] == 'deliveryman') { ?>
-                    <div class="col">
-                        <a href="/QuickBaluchon/QuickBaluchon/deliveryman_space.php"><button type="button" class="btn btn-warning"><?php echo $site->headers->header->itemClientSpace->deliveryman; ?></button></a>
-                    </div>
-                    <?php } ?>
-                    <div class="col">
-                        <a href="/QuickBaluchon/QuickBaluchon/actions/disconnect.php"><button type="button" class="btn btn-danger">Déconnexion</button></a>
-                    </div>
-                    
-                </div>
-            <?php } else { ?>
-                <div class="row">
-                    <div class="col">
-                    <a href="/AeroClub/log_in.php"><button type="button" class="btn">Connexion</button></a>
-                    </div>
-                    <div class="col">
-                    <a href="/AeroClub/sign_in.php"><button type="button" class="btn">Inscription</button></a>
-                    </div>
-                    <div class="col">
-                    <a href="/AeroClub/log_in_trainers.php"><button type="button" class="btn">Connexion formateurs</button></a>
-                    </div>
-                </div>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #B8CCCF;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Aeroclub/index.php"><img src="/Aeroclub/Images/Logo.png" style="width:125px;" alt="Logo" /></a>
+            <button style="color: #003CA5;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Efdsfsf</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Disabled</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <?php if (!isset($_SESSION['user'])) { ?>
+                        <li class="nav-item dropdown d-flex">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Connexion
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg-end">
+                                <form class="px-3 py-3" action="/AeroClub/actions/log_in_process.php" method="post">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Mail</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Votre mail..." required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Mot de passe</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Votre mot de passe..." required>
+                                    </div>
+                                    <button type="submit" class="btn" style="background-color: #B8CCCF; color:white;">Se connecter</button>
+                                </form>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Vous êtes nouveau ici ? Inscrivez-vous</a>
+                            </div>
+                        </li>
+                        <?php } else {
+                        if ($_SESSION['user']['rank'] == 'trainer') { ?>
+                            <li class="nav-item d-flex">
+                                <a class="nav-link" href="/AeroClub/trainer_space.php">Mon espace</a>
+                            </li>
+                        <?php }
+                        if ($_SESSION['user']['rank'] == 'member') { ?>
+                            <li class="nav-item d-flex">
+                                <a class="nav-link" href="/AeroClub/member_space.php">Mon espace</a>
+                            </li>
+                        <?php } ?>
+                        <li class="nav-item d-flex">
+                            <a class="nav-link text-danger" href="/AeroClub/actions/disconnect.php">Déconnexion</a>
+                        </li>
+                </ul>
             <?php } ?>
+            </div>
         </div>
-    </div>
+    </nav>
+    <?php if (isset($_GET['msg'])) {
+        echo "<p class='alert'>" . $_GET['msg'] . "</p>";
+    }
+    ?>
 </header>
-<?php if(isset($_GET['msg'])) {
-    echo "<p class='alert'>" . $_GET['msg'] . "</p>";
-}
-?>
-

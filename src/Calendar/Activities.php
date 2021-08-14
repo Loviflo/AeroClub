@@ -12,10 +12,14 @@ class Activities
      * @return array
      */
 
-    public function getActivitiesBetween(\DateTime $start, \DateTime $end): array
+    public function getActivitiesBetween(\DateTime $start, \DateTime $end, ?String $type = null): array
     {
         $db = getDatabaseConnection();
-        $sql = "SELECT * From activities WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' ORDER BY start";
+        if ($type !== null) {
+            $sql = "SELECT * From activities WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' AND type = '$type' ORDER BY start";
+        } else {
+            $sql = "SELECT * From activities WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' ORDER BY start";
+        }
         $req = $db->query($sql);
         $results = $req->fetchAll();
         return $results;
@@ -28,9 +32,9 @@ class Activities
      * @return array
      */
 
-    public function getActivitiesBetweenByDay(\DateTime $start, \DateTime $end): array
+    public function getActivitiesBetweenByDay(\DateTime $start, \DateTime $end, ?String $type): array
     {
-        $activities = $this->getActivitiesBetween($start, $end);
+        $activities = $this->getActivitiesBetween($start, $end, $type);
         $days = [];
         foreach ($activities as $activity) {
             $date = explode(' ', $activity['start'])[0];
@@ -41,6 +45,39 @@ class Activities
             }
         }
         return $days;
+    }
+
+    public function getActivitiesByHour(\DateTime $start, \DateTime $end, ?String $type): array
+    {
+        $activities = $this->getActivitiesBetween($start, $end, $type);
+        $hours = [];
+        foreach ($activities as $activity) {
+            $date = new \DateTime($activity['start']);
+            $date = $date->format('H');
+            $activity = new \DateTime($activity['start']);
+            $activityHour = $activity->format('H');
+            switch ($activityHour) {
+                case '10':
+                    $activityHour = 1;
+                    break;
+                case '12':
+                    $activityHour = 2;
+                    break;
+                case '14':
+                    $activityHour = 3;
+                    break;
+                case '16':
+                    $activityHour = 4;
+                    break;
+                case '18':
+                    $activityHour = 5;
+                    break;
+            }
+            $activityDay = $activity->format('N') - 1;
+            $hours[$date][0] = [$activityDay];
+            $hours[$date][1] = [$activityHour];
+        }
+        return $hours;
     }
 
     /**
