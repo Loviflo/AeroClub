@@ -10,11 +10,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Efdsfsf</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Disabled</a>
-                    </li>
+                    <?php if ($_SESSION['user']['rank'] == 'member') { ?>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ajouter une réservation
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=BREVET">Formation</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=ULM">ULM</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=OTHER">Autre</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    <?php } ?>
                 </ul>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mb-2 mb-lg-0">
                     <?php if (!isset($_SESSION['user'])) { ?>
                         <li class="nav-item dropdown d-flex">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,7 +44,7 @@
                                     <button type="submit" class="btn" style="background-color: #B8CCCF; color:white;">Se connecter</button>
                                 </form>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Vous êtes nouveau ici ? Inscrivez-vous</a>
+                                <a class="dropdown-item" href="/AeroClub/sign_in.php">Vous êtes nouveau ici ? Inscrivez-vous</a>
                             </div>
                         </li>
                         <?php } else {

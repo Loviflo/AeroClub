@@ -4,51 +4,46 @@ require_once('utils/database.php');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <?php include 'utils/head.php'; ?>
-    <title>Espace Formateur</title>
+    <title>Espace Membre</title>
 </head>
-<body>
 <?php include 'utils/header.php'; ?>
-<?php
-$bdd = getDatabaseConnection();
-$q = 'SELECT TO_DO, TO_DO FROM TO_DO';
-$req = $bdd->prepare($q);
-$req->execute();
-$results = $req->fetchAll();
-
-$q2 = 'SELECT TO_DO, TO_DO FROM TO_DO';
-$req2 = $bdd->prepare($q2);
-$req2->execute();
-$results2 = $req2->fetchAll();
-?>
 <div class="container">
-        <h1 style="text-align: center;">Espace Membre</h1>
-        <div class="row">
-            <div class="col">
-                <h2 style="text-align: center;">Mes formations : </h2>
-                <?php foreach ($results as $key => $user) { ?>
-                <tr>
-                    <td class="text-center">Heures BB :<?php echo $user['TO_DO']; ?></td>
-                    <td class="text-center">Heures LAPL :<?php echo $user['TO_DO']; ?></td>
-                    <td class="text-center">Heures PPL :<?php echo $user['TO_DO']; ?></td>
-                </tr>
+    <h1 style="text-align: center;">Espace Membre</h1>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Votre compte</h5>
+                    <a href="/AeroClub/member_account.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
+                </div>
             </div>
-            <?php }?>
-            <div class="col">
-                <h2 style="text-align: center;">Mes cours :</h2>
-                <?php foreach ($results2 as $key => $user2) { ?>
-                <tr>
-                    <td class="text-center"><?php echo $user2['TO_DO'];} ?></td>
-                    <td class="text-center">
-                        <a href="/AeroClub/actions/cancel_class.php?id_client=<?php echo /*$user2['TO_DO'];*/"test" ?>" class="btn btn-danger" onclick="deletehref(this)" data-bs-toggle="modal" data-bs-target="#deleteAccount" role="button" style="margin: 2px;"><i class="fas fa-trash"></i></a>
-                    </td>
-                </tr>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="/AeroClub/Images/calendar.png" class="card-img-top center" style="width:50%;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Vos activités</h5>
+                    <a href="/AeroClub/memberActivities.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Vos statistiques</h5>
+                    <a href="/AeroClub/member_stats.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <?php include("utils/footer.php"); ?>
 </body>
 <script>
@@ -58,4 +53,5 @@ $results2 = $req2->fetchAll();
         idDeleteURL.href = href;
     }
 </script>
+
 </html>

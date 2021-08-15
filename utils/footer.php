@@ -1,5 +1,5 @@
 <!-- <footer class="mt-5 footer text-center text-white" style="background-color: #B8CCCF;"> -->
-  <!-- <div class="text-center p-3" style="background-color: #674232;">
+<!-- <div class="text-center p-3" style="background-color: #674232;">
     <p class="d-flex justify-content-center align-items-center">
       <span class="me-3">Contactez-nous</span>
       <button type="button" class="btn btn-outline-light btn-rounded">Contact</button>
@@ -64,7 +64,7 @@
     </div>
     </div>
   -->
-  <!-- <div class="row">
+<!-- <div class="row">
     <p class="justify-content-center align-items-center">
       <a class="text-white" href="index.php">Accueil</a>
     </p>
@@ -83,8 +83,28 @@
       <li class="nav-item"><a href="/AeroClub/index.php" class="nav-link px-2 text-muted">Accueil</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Nos avions</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Tarifs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">A propos</a></li>
+      <?php if (!isset($_SESSION['user'])) { ?>
+        <ul class="navbar-nav">
+          <li class="nav-item dropup">
+            <a class="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Connexion Instructeur
+            </a>
+            <div class="dropdown-menu" style="width:15em;">
+              <form class="px-3 py-3" action="/AeroClub/actions/log_in_trainers_process.php" method="post">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Mail</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Votre mail..." required>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Mot de passe</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Votre mot de passe..." required>
+                </div>
+                <button type="submit" class="btn" style="background-color: #B8CCCF; color:white;">Se connecter</button>
+              </form>
+            </div>
+          </li>
+        </ul>
+      <?php } ?>
     </ul>
   </footer>
 </div>

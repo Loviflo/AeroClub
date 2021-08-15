@@ -12,8 +12,8 @@
 
 <body>
     <?php include 'utils/header.php'; ?>
-
-
+    <div class="parallax">
+    </div>
 
 
     <?php include 'utils/footer.php'; ?>

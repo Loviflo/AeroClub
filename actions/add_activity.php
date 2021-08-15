@@ -54,14 +54,23 @@ switch ($type) {
         $price = 390;
         break;
     case 'ULM':
-        $plane = rand(3,4);
+        $plane = rand(3, 4);
         $price = 390;
         break;
 }
 
-$q = 'INSERT INTO activities (type,start,end,cost,id_member,id_trainer,id_plane) VALUES (?, ?, ?, ?, ?, ?, ?)';
 $db = getDatabaseConnection();
+$q = 'INSERT INTO activities (type,start,end,cost,id_member,id_trainer,id_plane) VALUES (?, ?, ?, ?, ?, ?, ?)';
 $req = $db->prepare($q);
 $req->execute([$type, $dateStart, $dateEnd, $price, $idMember, 1, $plane]);
+
+if ($type == 'BREVET') {
+    $sql = 'UPDATE members SET trainingHours = trainingHours+2 WHERE mail = "' . $user . '"';
+} else {
+    $sql = 'UPDATE members SET soloHours = soloHours+2 WHERE mail = "' . $user . '"';
+}
+$req = $db->prepare($sql);
+$req->execute();
+
 
 header('location: ../CalendarWeek.php?type=' . $type . '');
