@@ -7,9 +7,8 @@
     </head>
     <body>
         <?php include 'utils/header.php'; ?>
-        <?php
-        echo isset($_GET['msg'])?$_GET['msg']:null; ?>
         <div class="container">
+            <?php echo isset($_GET['ifail'])?$_GET['ifail']:null; ?>
             <h1 class="mt-3">Connexion</h1>
             <form action="actions/log_in_process.php" method="post">
                 <div class="form-group mb-3">
