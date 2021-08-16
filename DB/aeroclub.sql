@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 08, 2021 at 02:36 PM
+-- Generation Time: Aug 16, 2021 at 01:03 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.3.7
 
@@ -33,9 +33,9 @@ CREATE TABLE `activities` (
   `type` enum('BREVET','ULM','OTHER') NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
-  `cost` int(11) NOT NULL,
+  `cost` float NOT NULL,
   `id_member` int(11) NOT NULL,
-  `id_trainer` int(11) NOT NULL,
+  `id_trainer` int(11) DEFAULT NULL,
   `id_plane` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -44,9 +44,23 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`id`, `type`, `start`, `end`, `cost`, `id_member`, `id_trainer`, `id_plane`) VALUES
-(2, 'BREVET', '2021-08-08 16:00:00', '2021-08-08 18:00:00', 323, 5, 1, 1),
-(3, 'BREVET', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323, 5, 1, 1),
-(4, 'BREVET', '2021-08-08 14:00:00', '2021-08-08 16:00:00', 323, 5, 1, 1);
+(2, 'BREVET', '2021-08-08 16:00:00', '2021-08-08 18:00:00', 323.2, 5, 1, 1),
+(3, 'BREVET', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323.2, 5, 1, 1),
+(4, 'BREVET', '2021-08-08 14:00:00', '2021-08-08 16:00:00', 323.2, 5, 1, 1),
+(5, 'BREVET', '2021-07-29 16:00:00', '2021-07-29 18:00:00', 323.2, 5, 1, 1),
+(6, 'BREVET', '2021-08-05 10:00:00', '2021-08-05 12:00:00', 323.2, 5, 1, 1),
+(7, 'BREVET', '2021-08-04 18:00:00', '2021-08-04 20:00:00', 323.2, 5, 1, 1),
+(8, 'ULM', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323, 5, 1, 3),
+(9, 'OTHER', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323, 5, 1, 2),
+(12, 'BREVET', '2021-08-02 10:00:00', '2021-08-02 12:00:00', 323.2, 5, 1, 1),
+(14, 'BREVET', '2021-08-02 10:00:00', '2021-08-02 12:00:00', 323.2, 5, 1, 1),
+(15, 'BREVET', '2021-08-02 10:00:00', '2021-08-02 12:00:00', 323.2, 5, 1, 1),
+(16, 'BREVET', '2021-08-03 10:00:00', '2021-08-03 12:00:00', 323.2, 5, 1, 1),
+(17, 'BREVET', '2021-08-13 12:00:00', '2021-08-13 14:00:00', 323.2, 5, 1, 1),
+(18, 'BREVET', '2021-08-14 16:00:00', '2021-08-14 18:00:00', 323.2, 5, 1, 1),
+(19, 'BREVET', '2021-08-10 16:00:00', '2021-08-10 18:00:00', 323.2, 5, 1, 1),
+(20, 'ULM', '2021-08-17 16:00:00', '2021-08-17 18:00:00', 323, 5, 1, 3),
+(21, 'BREVET', '2021-08-15 18:00:00', '2021-08-15 20:00:00', 323.2, 5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -70,7 +84,7 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `level`, `mail`, `password`, `soloHours`, `trainingHours`) VALUES
-(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
+(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 2),
 (6, 'Vivian', 'Ruhlmann', 'Brevet de Base', 'vivian.ru@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
 (7, 'Kilian', 'Cassaigne', 'Aucun Brevet', 'kicass@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0);
 
@@ -177,7 +191,7 @@ ALTER TABLE `trainers`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `members`
