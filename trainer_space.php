@@ -1,3 +1,10 @@
+<?php
+$month = date('m');
+$days = date('t');
+$year = date('Y');
+$start_month = $year . '-' . $month . '-' . "01";
+$end_month = $year . '-' . $month . '-' . $days;
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -16,6 +23,9 @@
                 <div class="col">
                     <h2 style="text-align: center;">Mes disponibilités : </h2>
                 </div>
+            </div>
+            <div class="row">
+                <a href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>"><button type='button' class='btn btn-danger'>Exporter la facture des activités des membres</a>
             </div>
         </div>
         <?php include("utils/footer.php"); ?>
