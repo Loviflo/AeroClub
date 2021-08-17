@@ -10,6 +10,8 @@ $type = $_GET['type'];
 $db = getDatabaseConnection();
 $idMember = $db->query("SELECT id From members WHERE mail = '$user' LIMIT 1")->fetch();
 $idMember = $idMember["id"];
+$week = $_GET['week'];
+$year = $_GET['year'];
 
 switch ($hour) {
     case 1:
@@ -73,4 +75,4 @@ $req = $db->prepare($sql);
 $req->execute();
 
 
-header('location: ../CalendarWeek.php?type=' . $type . '');
+header('location: ../CalendarWeek.php?type=' . $type . '&week=' . $week . '&year=' . $year . '');
