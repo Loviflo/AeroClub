@@ -62,8 +62,10 @@
                             <div class="calendar__day"><?= $date->format('d/m'); ?></div>
                         </td>
                         <?php } else {
-                        if ($reserved[$d][$h]) { ?>
+                        if ($reserved[$d][$h] == 1) { ?>
                             <td style="background-color: grey;"></td>
+                        <?php } else if ($reserved[$d][$h] == 2) { ?>
+                            <td style="background-color: orange;"></td>
                         <?php } else { ?>
                             <td onmouseover=style.backgroundColor='blue' ; onmouseout=style.backgroundColor='' ; onclick=window.location.href="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } ?>
