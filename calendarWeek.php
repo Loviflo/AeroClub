@@ -67,7 +67,7 @@
                         <?php } else if ($reserved[$d][$h] == 2) { ?>
                             <td style="background-color: orange;"></td>
                         <?php } else { ?>
-                            <td onmouseover=style.backgroundColor='blue' ; onmouseout=style.backgroundColor='' ; onclick=window.location.href="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td onmouseover=style.backgroundColor='blue' ; onmouseout=style.backgroundColor='' ; data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } ?>
                     <?php } ?>
                 <?php } ?>
@@ -75,7 +75,41 @@
         <?php } ?>
 
     </table>
+    <!-- Modal -->
+    <div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Validation de la réservation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="message-text" class="col-form-label">Êtes-vous sûr de réserver cette activité ?</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a href="test.php" type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php include 'utils/footer.php'; ?>
 </body>
 
 </html>
+<script>
+    var exampleModal = document.getElementById('validationModal')
+    exampleModal.addEventListener('show.bs.modal', function(event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-url')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var a = exampleModal.querySelector('.modal-footer a')
+
+        a.href = recipient
+    });
+</script>

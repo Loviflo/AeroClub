@@ -16,7 +16,7 @@ require_once('utils/database.php');
     $bdd = getDatabaseConnection();
     $mail = $_SESSION['user']['mail'];
     $showOldActivites = isset($_GET['oldActivities']) ? null : " AND start > NOW()";
-    $sql = 'SELECT type, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as start, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, cost FROM activities WHERE id_member = (SELECT members.id FROM members where mail = "' . $mail . '")' . $showOldActivites . ' ORDER BY id DESC';
+    $sql = 'SELECT type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, cost FROM activities WHERE id_member = (SELECT members.id FROM members where mail = "' . $mail . '")' . $showOldActivites . ' ORDER BY start DESC';
     $req = $bdd->prepare($sql);
     $req->execute();
     $activities = $req->fetchAll();
@@ -36,12 +36,12 @@ require_once('utils/database.php');
             <tbody>
                 <?php $i = 0;
                 foreach ($activities as $key => $activity) { ?>
-                    <tr <?php if (date('Y-m-d H:i', strtotime(str_replace(array('/', 'h'), array('-', ':'), $activity['start']))) < date('Y-m-d H:i') && $i < 1) {
+                    <tr <?php if (date('Y-m-d H:i', strtotime(str_replace(array('/', 'h'), array('-', ':'), $activity['startFormat']))) < date('Y-m-d H:i') && $i < 1) {
                             echo 'style="border-top: 5px solid black"';
                             $i++;
                         } ?>>
                         <td scope="row"><?= $activity['type'] ?></td>
-                        <td><?= $activity['start'] ?></td>
+                        <td><?= $activity['startFormat'] ?></td>
                         <td><?= $activity['end'] ?></td>
                         <td><?= $activity['cost'] ?> €</td>
                     </tr>
