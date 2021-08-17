@@ -50,12 +50,16 @@ class Activities
     public function getActivitiesByHour(\DateTime $start, \DateTime $end, ?String $type): array
     {
         $activities = $this->getActivitiesBetween($start, $end, $type);
-        $hours = [];
+        for ($days = 1; $days < 8; $days++) { 
+            for ($hours = 1; $hours < 6; $hours++) { 
+                $reserved[$days][$hours] = 0;
+            }
+        }
         foreach ($activities as $activity) {
             $date = new \DateTime($activity['start']);
             $date = $date->format('H');
-            $activity = new \DateTime($activity['start']);
-            $activityHour = $activity->format('H');
+            $activityStart = new \DateTime($activity['start']);
+            $activityHour = $activityStart->format('H');
             switch ($activityHour) {
                 case '10':
                     $activityHour = 1;
@@ -73,11 +77,14 @@ class Activities
                     $activityHour = 5;
                     break;
             }
-            $activityDay = $activity->format('N') - 1;
-            $hours[$date][0] = [$activityDay];
-            $hours[$date][1] = [$activityHour];
+            $activityDay = $activityStart->format('N');
+            if ($activity['id_member'] == $_SESSION['user']['id']) {
+                $reserved[$activityDay][$activityHour] = 2;
+            } else {
+                $reserved[$activityDay][$activityHour] = 1;
+            }
         }
-        return $hours;
+        return $reserved;
     }
 
     /**
