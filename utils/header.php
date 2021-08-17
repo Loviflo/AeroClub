@@ -6,11 +6,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="#">Efdsfsf</a>
                     </li>
-                    <?php if ($_SESSION['user']['rank'] == 'member') { ?>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['rank'] == 'member') { ?>
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -24,7 +24,7 @@
                             </li>
                         </ul>
                     <?php } ?>
-                </ul -->
+                </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <?php if (!isset($_SESSION['user'])) { ?>
                         <li class="nav-item dropdown d-flex">
