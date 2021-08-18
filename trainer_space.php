@@ -25,7 +25,7 @@ $end_month = $year . '-' . $month . '-' . $days;
                 </div>
             </div>
             <div class="row">
-                <a href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>"><button type='button' class='btn btn-danger'>Exporter la facture des activités des membres</a>
+                <a class='btn btn-primary' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
             </div>
         </div>
         <?php include("utils/footer.php"); ?>
