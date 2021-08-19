@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 16, 2021 at 01:03 PM
+-- Generation Time: Aug 19, 2021 at 02:19 PM
 -- Server version: 5.7.24
--- PHP Version: 7.3.7
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,36 +31,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `activities` (
   `id` int(11) NOT NULL,
   `type` enum('BREVET','ULM','OTHER') NOT NULL,
-  `start` datetime NOT NULL,
-  `end` datetime NOT NULL,
-  `cost` float NOT NULL,
-  `id_member` int(11) NOT NULL,
-  `id_trainer` int(11) DEFAULT NULL,
-  `id_plane` int(11) NOT NULL
+  `cost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` (`id`, `type`, `start`, `end`, `cost`, `id_member`, `id_trainer`, `id_plane`) VALUES
-(2, 'BREVET', '2021-08-08 16:00:00', '2021-08-08 18:00:00', 323.2, 5, 1, 1),
-(3, 'BREVET', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323.2, 5, 1, 1),
-(4, 'BREVET', '2021-08-08 14:00:00', '2021-08-08 16:00:00', 323.2, 5, 1, 1),
-(5, 'BREVET', '2021-07-29 16:00:00', '2021-07-29 18:00:00', 323.2, 5, 1, 1),
-(6, 'BREVET', '2021-08-05 10:00:00', '2021-08-05 12:00:00', 323.2, 5, 1, 1),
-(7, 'BREVET', '2021-08-04 18:00:00', '2021-08-04 20:00:00', 323.2, 5, 1, 1),
-(8, 'ULM', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323, 5, 1, 3),
-(9, 'OTHER', '2021-08-09 16:00:00', '2021-08-09 18:00:00', 323, 5, 1, 2),
-(12, 'BREVET', '2021-08-02 10:00:00', '2021-08-02 12:00:00', 323.2, 5, 1, 1),
-(14, 'BREVET', '2021-08-02 10:00:00', '2021-08-02 12:00:00', 323.2, 5, 1, 1),
-(15, 'BREVET', '2021-08-02 10:00:00', '2021-08-02 12:00:00', 323.2, 5, 1, 1),
-(16, 'BREVET', '2021-08-03 10:00:00', '2021-08-03 12:00:00', 323.2, 5, 1, 1),
-(17, 'BREVET', '2021-08-13 12:00:00', '2021-08-13 14:00:00', 323.2, 5, 1, 1),
-(18, 'BREVET', '2021-08-14 16:00:00', '2021-08-14 18:00:00', 323.2, 5, 1, 1),
-(19, 'BREVET', '2021-08-10 16:00:00', '2021-08-10 18:00:00', 323.2, 5, 1, 1),
-(20, 'ULM', '2021-08-17 16:00:00', '2021-08-17 18:00:00', 323, 5, 1, 3),
-(21, 'BREVET', '2021-08-15 18:00:00', '2021-08-15 20:00:00', 323.2, 5, 1, 1);
+INSERT INTO `activities` (`id`, `type`, `cost`) VALUES
+(2, 'BREVET', 300),
+(3, 'ULM', 250),
+(4, 'OTHER', 350);
 
 -- --------------------------------------------------------
 
@@ -84,7 +65,7 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `level`, `mail`, `password`, `soloHours`, `trainingHours`) VALUES
-(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 2),
+(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
 (6, 'Vivian', 'Ruhlmann', 'Brevet de Base', 'vivian.ru@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
 (7, 'Kilian', 'Cassaigne', 'Aucun Brevet', 'kicass@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0);
 
@@ -119,9 +100,21 @@ INSERT INTO `planes` (`id`, `purpose`, `model`) VALUES
 CREATE TABLE `schedule` (
   `id_member` int(11) NOT NULL,
   `id_activity` int(11) NOT NULL,
+  `id_trainer` int(11) NOT NULL,
+  `id_plane` int(11) NOT NULL,
   `date` date NOT NULL,
-  `hour` time NOT NULL
+  `hour` time NOT NULL,
+  `length` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `schedule`
+--
+
+INSERT INTO `schedule` (`id_member`, `id_activity`, `id_trainer`, `id_plane`, `date`, `hour`, `length`) VALUES
+(5, 2, 1, 1, '2021-08-08', '16:00:00', 2),
+(5, 3, 1, 3, '2021-08-08', '18:00:00', 2),
+(5, 4, 1, 2, '2021-08-09', '16:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -152,10 +145,7 @@ INSERT INTO `trainers` (`id`, `firstname`, `lastname`, `mail`, `password`) VALUE
 -- Indexes for table `activities`
 --
 ALTER TABLE `activities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_member` (`id_member`),
-  ADD KEY `fk_trainer` (`id_trainer`) USING BTREE,
-  ADD KEY `fk_plane` (`id_plane`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `members`
@@ -173,9 +163,11 @@ ALTER TABLE `planes`
 -- Indexes for table `schedule`
 --
 ALTER TABLE `schedule`
-  ADD PRIMARY KEY (`id_member`,`id_activity`),
+  ADD PRIMARY KEY (`id_member`,`id_activity`,`id_trainer`,`id_plane`) USING BTREE,
   ADD KEY `id_activity` (`id_activity`),
-  ADD KEY `id_member` (`id_member`);
+  ADD KEY `id_member` (`id_member`),
+  ADD KEY `id_trainer` (`id_trainer`),
+  ADD KEY `id_plane` (`id_plane`);
 
 --
 -- Indexes for table `trainers`
@@ -191,7 +183,7 @@ ALTER TABLE `trainers`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `members`
@@ -216,19 +208,13 @@ ALTER TABLE `trainers`
 --
 
 --
--- Constraints for table `activities`
---
-ALTER TABLE `activities`
-  ADD CONSTRAINT `fk_member` FOREIGN KEY (`id_member`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_plane` FOREIGN KEY (`id_plane`) REFERENCES `planes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_trainer` FOREIGN KEY (`id_trainer`) REFERENCES `trainers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `schedule`
 --
 ALTER TABLE `schedule`
   ADD CONSTRAINT `id_activity` FOREIGN KEY (`id_activity`) REFERENCES `activities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_member` FOREIGN KEY (`id_member`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `id_member` FOREIGN KEY (`id_member`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_plane` FOREIGN KEY (`id_plane`) REFERENCES `planes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_trainer` FOREIGN KEY (`id_trainer`) REFERENCES `trainers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

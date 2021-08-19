@@ -41,7 +41,7 @@ class PDF extends FPDF
 }
 
 $bdd = getDatabaseConnection();
-$q = 'SELECT * FROM activities WHERE start >= ? AND start <= ? ORDER BY activities.id_member ASC';
+$q = 'SELECT * FROM schedule WHERE date >= ? AND date <= ? ORDER BY schedule.id_member ASC';
 $req = $bdd->prepare($q);
 $req->execute([$_GET['start_month'] , $_GET['end_month']]);
 $results = $req->fetchAll();
@@ -63,18 +63,30 @@ if (count($results) == 0){
         $req2->execute([$activity['id_member']]);
         $results2 = $req2->fetchAll();
         if ($member_id == $activity['id_member']) {
+            $q3 = 'SELECT * FROM activities WHERE id = ?';
+            $req3 = $bdd->prepare($q3);
+            $req3->execute([$activity['id_activity']]);
+            $results3 = $req3->fetchAll();
+
             $pdf->SetFont('Arial','',12);
-            $pdf->Cell(40, 10, '    Type d\'activité : ' . $activity['type']);
+            $pdf->Cell(40, 10, '    Type d\'activité : ' . $results3[0]['type']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Date de début : ' . $activity['start']);
+            $pdf->Cell(40, 10, '    Date de début : ' . $activity['date']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Date de fin : ' . $activity['end']);
+            $pdf->Cell(40, 10, '    Heure de début : ' . $activity['hour']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '        Coût : ' . $activity['cost'] . ' EUR');
+            $pdf->Cell(40, 10, '    Durée : ' . $activity['length'] . ' heure(s)');
+            $pdf->Ln();
+            $pdf->Cell(40, 10, '        Coût : ' . $results3[0]['cost'] . ' EUR');
             $pdf->Ln();
 
-            $member_total += $activity['cost'];
+            $member_total += $results3[0]['cost'];
         }else{
+            $q3 = 'SELECT * FROM activities WHERE id = ?';
+            $req3 = $bdd->prepare($q3);
+            $req3->execute([$activity['id_activity']]);
+            $results3 = $req3->fetchAll();
+
             if ($member_id != 0) {
                 $pdf->SetFont('Arial','B',12);
                 $pdf->Cell(40, 10, 'Total :' . $member_total . ' EUR');
@@ -89,16 +101,18 @@ if (count($results) == 0){
             $pdf->Ln();
 
             $pdf->SetFont('Arial','',12);
-            $pdf->Cell(40, 10, '    Type d\'activité : ' . $activity['type']);
+            $pdf->Cell(40, 10, '    Type d\'activité : ' . $results3[0]['type']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Date de début : ' . $activity['start']);
+            $pdf->Cell(40, 10, '    Date de début : ' . $activity['date']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Date de fin : ' . $activity['end']);
+            $pdf->Cell(40, 10, '    Heure de début : ' . $activity['hour']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Coût : ' . $activity['cost'] . ' EUR');
+            $pdf->Cell(40, 10, '    Durée : ' . $activity['length'] . ' heure(s)');
+            $pdf->Ln();
+            $pdf->Cell(40, 10, '        Coût : ' . $results3[0]['cost'] . ' EUR');
             $pdf->Ln();
 
-            $member_total += $activity['cost'];
+            $member_total += $results3[0]['cost'];
         }
 
     }
