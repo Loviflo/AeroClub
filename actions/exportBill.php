@@ -11,6 +11,35 @@ require('../lib/fpdf.php');
 require_once('../lib/PHPMailer/src/PHPMailer.php');
 require_once('../lib/PHPMailer/src/Exception.php');
 
+class PDF extends FPDF
+{
+// Page header
+    function Header()
+    {
+        // Logo
+        $this->Image('../Images/Logo.png',10,6,30);
+        // Arial bold 15
+        $this->SetFont('Arial','B',16);
+        // Move to the right
+        $this->Cell(80);
+        // Title
+        $this->Cell(80,10,'Export mensuel des activités',1,0,'C');
+        // Line break
+        $this->Ln(20);
+    }
+
+// Page footer
+    function Footer()
+    {
+        // Position at 1.5 cm from bottom
+        $this->SetY(-15);
+        // Arial italic 8
+        $this->SetFont('Arial','I',8);
+        // Page number
+        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+    }
+}
+
 $bdd = getDatabaseConnection();
 $q = 'SELECT * FROM activities WHERE start >= ? AND start <= ? ORDER BY activities.id_member ASC';
 $req = $bdd->prepare($q);
@@ -19,11 +48,9 @@ $results = $req->fetchAll();
 if (count($results) == 0){
     header( "location:../trainer_space.php?msg=No activities to export");
 }else{
-    $pdf = new FPDF();
+    $pdf = new PDF();
+    $pdf->AliasNbPages();
     $pdf->AddPage();
-    $pdf->SetFont('Arial','B',16);
-    $pdf->Cell(40,10, "Export mensuel des activités");
-    $pdf->Ln();
     $pdf->SetFont('Arial','B',14);
     $pdf->Cell(40,10, "Détail par membre:");
     $pdf->Ln();
@@ -31,19 +58,19 @@ if (count($results) == 0){
     $member_id = 0;
     $member_total = 0;
     foreach ($results as $key => $activity) {
-        $q2 = 'SELECT (firstname, lastname, mail) FROM members WHERE id = ?';
+        $q2 = 'SELECT * FROM members WHERE id = ?';
         $req2 = $bdd->prepare($q2);
         $req2->execute([$activity['id_member']]);
         $results2 = $req2->fetchAll();
         if ($member_id == $activity['id_member']) {
             $pdf->SetFont('Arial','',12);
-            $pdf->Cell(40, 10, 'Type d\'activité : ' . $activity['type']);
+            $pdf->Cell(40, 10, '    Type d\'activité : ' . $activity['type']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Date de début : ' . $activity['start']);
+            $pdf->Cell(40, 10, '    Date de début : ' . $activity['start']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Date de fin : ' . $activity['end']);
+            $pdf->Cell(40, 10, '    Date de fin : ' . $activity['end']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Coût : ' . $activity['cost'] . ' EUR');
+            $pdf->Cell(40, 10, '        Coût : ' . $activity['cost'] . ' EUR');
             $pdf->Ln();
 
             $member_total += $activity['cost'];
@@ -56,19 +83,19 @@ if (count($results) == 0){
             }
             $member_id = $activity["id_member"];
             $pdf->SetFont('Arial','',14);
-            $pdf->Cell(40, 10, 'Nom complet :' . $results2['lastname'] . ' ' . $results2['firstname']);
+            $pdf->Cell(40, 10, ' Nom complet : ' . $results2[0]['lastname'] . ' ' . $results2[0]['firstname']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Adresse mail :' . $results2['mail']);
+            $pdf->Cell(40, 10, ' Adresse mail : ' . $results2[0]['mail']);
             $pdf->Ln();
 
             $pdf->SetFont('Arial','',12);
-            $pdf->Cell(40, 10, 'Type d\'activité : ' . $activity['type']);
+            $pdf->Cell(40, 10, '    Type d\'activité : ' . $activity['type']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Date de début : ' . $activity['start']);
+            $pdf->Cell(40, 10, '    Date de début : ' . $activity['start']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Date de fin : ' . $activity['end']);
+            $pdf->Cell(40, 10, '    Date de fin : ' . $activity['end']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, 'Coût : ' . $activity['cost'] . ' EUR');
+            $pdf->Cell(40, 10, '    Coût : ' . $activity['cost'] . ' EUR');
             $pdf->Ln();
 
             $member_total += $activity['cost'];
@@ -87,8 +114,8 @@ if (count($results) == 0){
     $email = new PHPMailer();
     $email->SetFrom('BillService@aeroclub.com');
     $email->Subject   = "Export mensuel des activités";
-    $email->Body      = "Veuillez trouvez ci_joint l'export mensuel des activités de nos memberes.";
-    $email->AddAddress("kicass@free.fr");
+    $email->Body      = "Veuillez trouvez ci_joint l'export mensuel des activités de nos membres.";
+    $email->AddAddress("kicass@live.fr");
 
     $email->AddAttachment( $absoluteFilename , $filename );
 
