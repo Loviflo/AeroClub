@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 16, 2021 at 01:03 PM
+-- Generation Time: Aug 19, 2021 at 12:23 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.3.7
 
@@ -60,7 +60,28 @@ INSERT INTO `activities` (`id`, `type`, `start`, `end`, `cost`, `id_member`, `id
 (18, 'BREVET', '2021-08-14 16:00:00', '2021-08-14 18:00:00', 323.2, 5, 1, 1),
 (19, 'BREVET', '2021-08-10 16:00:00', '2021-08-10 18:00:00', 323.2, 5, 1, 1),
 (20, 'ULM', '2021-08-17 16:00:00', '2021-08-17 18:00:00', 323, 5, 1, 3),
-(21, 'BREVET', '2021-08-15 18:00:00', '2021-08-15 20:00:00', 323.2, 5, 1, 1);
+(21, 'BREVET', '2021-08-15 18:00:00', '2021-08-15 20:00:00', 323.2, 5, 1, 1),
+(22, 'BREVET', '2021-08-11 14:00:00', '2021-08-11 16:00:00', 323.2, 5, 1, 1),
+(23, 'BREVET', '2021-08-10 12:00:00', '2021-08-10 14:00:00', 323.2, 5, 1, 1),
+(24, 'BREVET', '2021-08-09 12:00:00', '2021-08-09 14:00:00', 323.2, 5, 1, 1),
+(25, 'BREVET', '2021-07-27 14:00:00', '2021-07-27 16:00:00', 323.2, 5, 1, 1),
+(26, 'BREVET', '2021-07-31 12:00:00', '2021-07-31 14:00:00', 323.2, 5, 1, 1),
+(27, 'BREVET', '2021-08-20 12:00:00', '2021-08-20 14:00:00', 323.2, 5, 1, 1),
+(29, 'BREVET', '2021-08-19 16:00:00', '2021-08-19 18:00:00', 323.2, 5, 1, 1),
+(30, 'BREVET', '2021-08-16 10:00:00', '2021-08-16 12:00:00', 323.2, 5, 1, 1),
+(31, 'BREVET', '2021-08-21 16:00:00', '2021-08-21 18:00:00', 323.2, 5, 1, 1),
+(32, 'BREVET', '2021-08-21 18:00:00', '2021-08-21 20:00:00', 323.2, 5, 1, 1),
+(33, 'ULM', '2021-08-19 14:00:00', '2021-08-19 16:00:00', 390, 5, 1, 3),
+(36, 'BREVET', '2021-08-12 14:00:00', '2021-08-12 16:00:00', 323.2, 6, 1, 1),
+(37, 'BREVET', '2021-08-13 18:00:00', '2021-08-13 20:00:00', 323.2, 6, 1, 1),
+(39, 'BREVET', '2021-08-16 12:00:00', '2021-08-16 14:00:00', 323.2, 6, 1, 1),
+(40, 'BREVET', '2021-08-18 12:00:00', '2021-08-18 14:00:00', 323.2, 6, 1, 1),
+(42, 'ULM', '2021-08-21 10:00:00', '2021-08-21 12:00:00', 390, 6, 1, 4),
+(43, 'ULM', '2021-08-20 16:00:00', '2021-08-20 18:00:00', 390, 6, 1, 3),
+(45, 'OTHER', '2021-08-19 16:00:00', '2021-08-19 18:00:00', 390, 6, 1, 2),
+(46, 'ULM', '2021-08-20 16:00:00', '2021-08-20 18:00:00', 390, 5, 1, 4),
+(47, 'ULM', '2021-08-19 14:00:00', '2021-08-19 16:00:00', 390, 6, 1, 3),
+(48, 'ULM', '2021-08-17 16:00:00', '2021-08-17 18:00:00', 390, 8, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -84,9 +105,10 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `level`, `mail`, `password`, `soloHours`, `trainingHours`) VALUES
-(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 2),
-(6, 'Vivian', 'Ruhlmann', 'Brevet de Base', 'vivian.ru@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
-(7, 'Kilian', 'Cassaigne', 'Aucun Brevet', 'kicass@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0);
+(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 4, 22),
+(6, 'Vivian', 'Ruhlmann', 'Brevet de Base', 'vivian.ru@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 8, 16),
+(7, 'Kilian', 'Cassaigne', 'Aucun Brevet', 'kicass@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
+(8, 'Patrick', 'Bertrand', 'Licence Pilote d\'Avion Léger', 'patrick@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -191,13 +213,13 @@ ALTER TABLE `trainers`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `planes`
