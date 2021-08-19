@@ -13,6 +13,8 @@ require_once('utils/database.php');
 <div class="wrapper">
     <?php include 'utils/header.php'; ?>
     <?php
+    $totalPrice = 0;
+    $totalActivity = 0;
     $bdd = getDatabaseConnection();
     $idMember = $_SESSION['user']['id'];
     $showOldActivites = isset($_GET['oldActivities']) ? null : " AND start > NOW()";
@@ -44,9 +46,21 @@ require_once('utils/database.php');
                         <td><?= $activity['startFormat'] ?></td>
                         <td><?= $activity['end'] ?></td>
                         <td><?= $activity['cost'] ?> €</td>
+                        <?php
+                        $totalPrice += $activity['cost'];
+                        $totalActivity++;
+                        ?>
                     </tr>
                 <?php } ?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td><?= $totalActivity ?></td>
+                    <td></td>
+                    <td></td>
+                    <td><?= $totalPrice ?> €</td>
+                </tr>
+            </tfoot>
         </table>
         <?php if (!isset($_GET['oldActivities'])) { ?>
             <a class="btn btn-primary text-center text-muted" style="background-color:#B8CCCF; border-color: #B8CCCF;" href="/AeroClub/memberActivities.php?oldActivities=yes" role="button">Voir mes anciennes activités</a>
