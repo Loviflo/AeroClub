@@ -63,11 +63,13 @@
                         </td>
                         <?php } else {
                         if ($reserved[$d][$h] == 1) { ?>
-                            <td style="background-color: grey;"></td>
+                            <td style="background-color: #A7A7A9;"></td>
                         <?php } else if ($reserved[$d][$h] == 2) { ?>
-                            <td style="background-color: orange;"></td>
+                            <td onmouseover=style.backgroundColor='#64403E' ; onmouseout=style.backgroundColor='#8d775f' ; style="background-color: #8d775f;" data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="actions/delete_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                        <?php } else if ($reserved[$d][$h] == 3) { ?>
+                            <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='yellow' ; style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } else { ?>
-                            <td onmouseover=style.backgroundColor='blue' ; onmouseout=style.backgroundColor='' ; data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='' ; data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } ?>
                     <?php } ?>
                 <?php } ?>
@@ -75,7 +77,7 @@
         <?php } ?>
 
     </table>
-    <!-- Modal -->
+    <!-- Modal add activity -->
     <div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -88,7 +90,25 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a href="test.php" type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
+                    <a type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal delete activity -->
+    <div class="modal fade" id="deleteActivityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Suppression de la réservation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="message-text" class="col-form-label">Êtes-vous sûr de supprimer cette activité ?</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
                 </div>
             </div>
         </div>
@@ -98,8 +118,8 @@
 
 </html>
 <script>
-    var exampleModal = document.getElementById('validationModal')
-    exampleModal.addEventListener('show.bs.modal', function(event) {
+    var validationModal = document.getElementById('validationModal')
+    validationModal.addEventListener('show.bs.modal', function(event) {
         // Button that triggered the modal
         var button = event.relatedTarget
         // Extract info from data-bs-* attributes
@@ -108,7 +128,21 @@
         // and then do the updating in a callback.
         //
         // Update the modal's content.
-        var a = exampleModal.querySelector('.modal-footer a')
+        var a = validationModal.querySelector('.modal-footer a')
+
+        a.href = recipient
+    });
+    var deleteActivityModal = document.getElementById('deleteActivityModal')
+    deleteActivityModal.addEventListener('show.bs.modal', function(event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-url')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var a = deleteActivityModal.querySelector('.modal-footer a')
 
         a.href = recipient
     });

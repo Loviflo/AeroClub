@@ -50,8 +50,8 @@ class Activities
     public function getActivitiesByHour(\DateTime $start, \DateTime $end, ?String $type): array
     {
         $activities = $this->getActivitiesBetween($start, $end, $type);
-        for ($days = 1; $days < 8; $days++) { 
-            for ($hours = 1; $hours < 6; $hours++) { 
+        for ($days = 1; $days < 8; $days++) {
+            for ($hours = 1; $hours < 6; $hours++) {
                 $reserved[$days][$hours] = 0;
             }
         }
@@ -80,6 +80,15 @@ class Activities
             $activityDay = $activityStart->format('N');
             if ($activity['id_member'] == $_SESSION['user']['id']) {
                 $reserved[$activityDay][$activityHour] = 2;
+            } else if ($type == 'ULM') {
+                switch ($reserved[$activityDay][$activityHour]) {
+                    case 0:
+                        $reserved[$activityDay][$activityHour] = 3;
+                        break;
+                    case 3:
+                        $reserved[$activityDay][$activityHour] = 1;
+                        break;
+                }
             } else {
                 $reserved[$activityDay][$activityHour] = 1;
             }
