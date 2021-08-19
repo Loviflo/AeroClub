@@ -65,9 +65,9 @@
                         if ($reserved[$d][$h] == 1) { ?>
                             <td style="background-color: #A7A7A9;"></td>
                         <?php } else if ($reserved[$d][$h] == 2) { ?>
-                            <td onmouseover=style.backgroundColor='#64403E' ; onmouseout=style.backgroundColor='#8d775f' ; style="background-color: #8d775f;" data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="actions/delete_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td onmouseover=style.backgroundColor='#64403E' ; onmouseout=style.backgroundColor='#5d737e' ; style="background-color: #5d737e;" data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="actions/delete_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } else if ($reserved[$d][$h] == 3) { ?>
-                            <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='yellow' ; style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='#EDB88B' ; style="background-color: #EDB88B;" data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } else { ?>
                             <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='' ; data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } ?>
