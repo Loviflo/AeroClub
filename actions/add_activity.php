@@ -45,24 +45,24 @@ switch ($hour) {
 }
 
 switch ($type) {
-    case 'BREVET':
+    case 2:
         $plane = 1;
         $price = 323.2;
         break;
-    case 'OTHER':
+    case 4:
         $plane = 2;
         $price = 390;
         break;
-    case 'ULM':
+    case 3:
         $plane = rand(3, 4);
         $price = 390;
         break;
 }
 
 $db = getDatabaseConnection();
-$q = 'INSERT INTO activities (type,start,end,cost,id_member,id_trainer,id_plane) VALUES (?, ?, ?, ?, ?, ?, ?)';
+$q = 'INSERT INTO schedule (id_activity,start,end,id_member,id_trainer,id_plane) VALUES (?, ?, ?, ?, ?, ?)';
 $req = $db->prepare($q);
-$req->execute([$type, $dateStart, $dateEnd, $price, $idMember, 1, $plane]);
+$req->execute([$type, $dateStart, $dateEnd, $idMember, 1, $plane]);
 
 if ($type == 'BREVET') {
     $sql = 'UPDATE members SET trainingHours = trainingHours+2 WHERE id = "' . $idMember . '"';

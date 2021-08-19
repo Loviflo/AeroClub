@@ -39,7 +39,7 @@ switch ($hour) {
 }
 
 $db = getDatabaseConnection();
-$sql = 'DELETE FROM activities WHERE start = ? AND id_member = ? AND type = ?';
+$sql = 'DELETE FROM schedule WHERE start = ? AND id_member = ? AND id_activity = ?';
 $req = $db->prepare($sql);
 $req->execute([$dateStart, $idMember, $type]);
 

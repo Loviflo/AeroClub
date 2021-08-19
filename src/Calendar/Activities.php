@@ -16,9 +16,9 @@ class Activities
     {
         $db = getDatabaseConnection();
         if ($type !== null) {
-            $sql = "SELECT * From activities WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' AND type = '$type' ORDER BY start";
+            $sql = "SELECT * From schedule WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' AND id_activity = '$type' ORDER BY start";
         } else {
-            $sql = "SELECT * From activities WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' ORDER BY start";
+            $sql = "SELECT * From schedule WHERE start BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND '{$end->format('Y-m-d 23:59:59')}' ORDER BY start";
         }
         $req = $db->query($sql);
         $results = $req->fetchAll();
@@ -80,7 +80,7 @@ class Activities
             $activityDay = $activityStart->format('N');
             if ($activity['id_member'] == $_SESSION['user']['id']) {
                 $reserved[$activityDay][$activityHour] = 2;
-            } else if ($type == 'ULM') {
+            } else if ($type == 3) {
                 switch ($reserved[$activityDay][$activityHour]) {
                     case 0:
                         $reserved[$activityDay][$activityHour] = 3;
@@ -106,7 +106,7 @@ class Activities
     public function find(int $id): array
     {
         $db = getDatabaseConnection();
-        $result = $db->query("SELECT * From activities WHERE id = $id LIMIT 1")->fetch();
+        $result = $db->query("SELECT * From schedule WHERE id = $id LIMIT 1")->fetch();
         if ($result === false) {
             throw new \Exception("Aucun résultat n'a été trouvé.");
         }

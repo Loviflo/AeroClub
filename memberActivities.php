@@ -14,9 +14,9 @@ require_once('utils/database.php');
     <?php include 'utils/header.php'; ?>
     <?php
     $bdd = getDatabaseConnection();
-    $mail = $_SESSION['user']['mail'];
+    $idMember = $_SESSION['user']['id'];
     $showOldActivites = isset($_GET['oldActivities']) ? null : " AND start > NOW()";
-    $sql = 'SELECT type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, cost FROM activities WHERE id_member = (SELECT members.id FROM members where mail = "' . $mail . '")' . $showOldActivites . ' ORDER BY start DESC';
+    $sql = 'SELECT activities.type as type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, activities.cost as cost FROM schedule INNER JOIN activities ON schedule.id_activity = activities.id WHERE id_member = ' . $idMember . $showOldActivites . ' ORDER BY start DESC';
     $req = $bdd->prepare($sql);
     $req->execute();
     $activities = $req->fetchAll();

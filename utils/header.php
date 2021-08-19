@@ -17,9 +17,9 @@
                                     Ajouter une réservation
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=BREVET">Formation</a></li>
-                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=ULM">ULM</a></li>
-                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=OTHER">Autre</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=2">Formation</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=3">ULM</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=4">Autre</a></li>
                                 </ul>
                             </li>
                         </ul>
