@@ -41,7 +41,7 @@ class PDF extends FPDF
 }
 
 $bdd = getDatabaseConnection();
-$q = 'SELECT * FROM schedule WHERE date >= ? AND date <= ? ORDER BY schedule.id_member ASC';
+$q = 'SELECT * FROM schedule WHERE start >= ? AND start <= ? ORDER BY schedule.id_member ASC';
 $req = $bdd->prepare($q);
 $req->execute([$_GET['start_month'] , $_GET['end_month']]);
 $results = $req->fetchAll();
@@ -71,11 +71,13 @@ if (count($results) == 0){
             $pdf->SetFont('Arial','',12);
             $pdf->Cell(40, 10, '    Type d\'activité : ' . $results3[0]['type']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Date de début : ' . $activity['date']);
+            $pdf->Cell(40, 10, '    Début : ' . $activity['start']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Heure de début : ' . $activity['hour']);
-            $pdf->Ln();
-            $pdf->Cell(40, 10, '    Durée : ' . $activity['length'] . ' heure(s)');
+            $format = 'Y-m-d H:i:s';
+            $start = DateTime::createFromFormat($format, $activity['start']);
+            $end = DateTime::createFromFormat($format, $activity['end']);
+            $Duration = ($end->format("G") - $start->format("G"));
+            $pdf->Cell(40, 10, '    Durée : ' . $Duration . ' heure(s)');
             $pdf->Ln();
             $pdf->Cell(40, 10, '        Coût : ' . $results3[0]['cost'] . ' EUR');
             $pdf->Ln();
@@ -103,11 +105,13 @@ if (count($results) == 0){
             $pdf->SetFont('Arial','',12);
             $pdf->Cell(40, 10, '    Type d\'activité : ' . $results3[0]['type']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Date de début : ' . $activity['date']);
+            $pdf->Cell(40, 10, '    Début : ' . $activity['start']);
             $pdf->Ln();
-            $pdf->Cell(40, 10, '    Heure de début : ' . $activity['hour']);
-            $pdf->Ln();
-            $pdf->Cell(40, 10, '    Durée : ' . $activity['length'] . ' heure(s)');
+            $format = 'Y-m-d H:i:s';
+            $start = DateTime::createFromFormat($format, $activity['start']);
+            $end = DateTime::createFromFormat($format, $activity['end']);
+            $Duration = ($end->format("G") - $start->format("G"));
+            $pdf->Cell(40, 10, '    Durée : ' . $Duration . ' heure(s)');
             $pdf->Ln();
             $pdf->Cell(40, 10, '        Coût : ' . $results3[0]['cost'] . ' EUR');
             $pdf->Ln();
