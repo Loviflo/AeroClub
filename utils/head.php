@@ -12,4 +12,5 @@ date_default_timezone_set('Europe/Paris');
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 <link rel="icon" type="image/png" href="/AeroClub/Images/Logo.png" />
 <link rel="stylesheet" href="/AeroClub/CSS/parallax.css">
+<link rel="stylesheet" href="/AeroClub/CSS/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">

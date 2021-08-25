@@ -10,7 +10,7 @@
     ?>
 </head>
 
-<body class="d-flex flex-column h-100">    <?php include 'utils/header.php'; ?>
+<body class="d-flex flex-column h-100"> <?php include 'utils/header.php'; ?>
     <?php
 
     require_once('utils/database.php');
@@ -61,14 +61,18 @@
                             <div class="calendar__day"><?= $date->format('d/m'); ?></div>
                         </td>
                         <?php } else {
+                        // $reserved[$d][$h] == 1 Plus de place
+                        // $reserved[$d][$h] == 2 Réserver par l'utilisateur donc possibilité de supprimer
+                        // $reserved[$d][$h] == 3 Pour l'ULM quand il n'y a plus qu'un place
+                        // else Quand il y a de la place
                         if ($reserved[$d][$h] == 1) { ?>
-                            <td style="background-color: #A7A7A9;"></td>
+                            <td style="background-color: #A7A7A9;" rel="tooltip" data-bs-placement="top" title="Il n'y a malheureusement plus de place pour cet horaire."></td>
                         <?php } else if ($reserved[$d][$h] == 2) { ?>
-                            <td onmouseover=style.backgroundColor='#64403E' ; onmouseout=style.backgroundColor='#5d737e' ; style="background-color: #5d737e;" data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="actions/delete_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td class="cursor-pointer" onmouseover=style.backgroundColor='#64403E' ; onmouseout=style.backgroundColor='#5d737e' ; style="background-color: #5d737e;" rel="tooltip" data-placement="top" title="Annuler votre activité." data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="actions/delete_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } else if ($reserved[$d][$h] == 3) { ?>
-                            <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='#EDB88B' ; style="background-color: #EDB88B;" data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td class="cursor-pointer" onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='#EDB88B' ; style="background-color: #EDB88B;" rel="tooltip" data-bs-placement="top" title="Il ne reste plus qu'une seule place." data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } else { ?>
-                            <td onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='' ; data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
+                            <td class="cursor-pointer" onmouseover=style.backgroundColor='#838E83' ; onmouseout=style.backgroundColor='' ; rel="tooltip" data-bs-placement="top" title="Ajouter une activité." data-bs-toggle="modal" data-bs-target="#validationModal" data-bs-url="actions/add_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } ?>
                     <?php } ?>
                 <?php } ?>
@@ -144,5 +148,9 @@
         var a = deleteActivityModal.querySelector('.modal-footer a')
 
         a.href = recipient
+    });
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[rel="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
     });
 </script>
