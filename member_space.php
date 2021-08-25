@@ -37,7 +37,7 @@ require_once('utils/database.php');
             <div class="card">
                 <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Vos statistiques</h5>
+                    <h5 class="card-title">Votre formation</h5>
                     <a href="/AeroClub/member_stats.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
                 </div>
             </div>

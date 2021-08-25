@@ -40,6 +40,10 @@ class PDF extends FPDF
     }
 }
 
+function getAge($date) {
+    return intval(date('Y', time() - strtotime($date))) - 1970;
+}
+
 $bdd = getDatabaseConnection();
 $q = 'SELECT * FROM schedule WHERE start >= ? AND start <= ? ORDER BY schedule.id_member ASC';
 $req = $bdd->prepare($q);
@@ -62,6 +66,7 @@ if (count($results) == 0){
         $req2 = $bdd->prepare($q2);
         $req2->execute([$activity['id_member']]);
         $results2 = $req2->fetchAll();
+
         if ($member_id == $activity['id_member']) {
             $q3 = 'SELECT * FROM activities WHERE id = ?';
             $req3 = $bdd->prepare($q3);
@@ -90,6 +95,20 @@ if (count($results) == 0){
             $results3 = $req3->fetchAll();
 
             if ($member_id != 0) {
+
+                if ($results2[0]['payed'] == 0){
+                    $cotisation = getAge($results2[0]['birthDate']) < 21? 178: 218;
+                }else{
+                    $cotisation = 0;
+                }
+                $pdf->SetFont('Arial','',12);
+                $pdf->Cell(40, 10, 'Cotisation :' . $cotisation . ' EUR');
+                $pdf->Ln();
+
+                $q4 = 'UPDATE members SET payed = 1 WHERE id = ?';
+                $req4 = $bdd->prepare($q4);
+                $req4->execute([$activity['id_member']]);
+
                 $pdf->SetFont('Arial','B',12);
                 $pdf->Cell(40, 10, 'Total :' . $member_total . ' EUR');
                 $pdf->Ln();
@@ -120,6 +139,18 @@ if (count($results) == 0){
         }
 
     }
+    if ($results2[0]['payed'] == 0){
+        $cotisation = getAge($results2[0]['birthDate']) < 21? 178: 218;
+    }else{
+        $cotisation = 0;
+    }
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(40, 10, 'Cotisation :' . $cotisation . ' EUR');
+    $pdf->Ln();
+
+    $q4 = 'UPDATE members SET payed = 1 WHERE id = ?';
+    $req4 = $bdd->prepare($q4);
+    $req4->execute([$activity['id_member']]);
 
     $pdf->SetFont('Arial','B',12);
     $pdf->Cell(40, 10, 'Total :' . $member_total . ' EUR');
@@ -136,6 +167,7 @@ if (count($results) == 0){
     $email->AddAddress("kicass@live.fr");
 
     $email->AddAttachment( $absoluteFilename , $filename );
+
 
     try {
         $email->Send();

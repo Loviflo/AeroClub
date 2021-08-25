@@ -50,7 +50,7 @@ require_once('utils/database.php');
                                 <td><?= $activities['start']; ?></td>
                                 <td><?= $activities['end']; ?> </td>
                                 <td><?= $results2[0]['type']; ?> </td>
-                                <td><a onClick="javascript: return confirm('Veuillez comfirmer l'annulation'');" href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&start=' . $activities['start'] . '&end=' . $activities['end']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
+                                <td><a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&start=' . $activities['start'] . '&end=' . $activities['end']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -62,7 +62,7 @@ require_once('utils/database.php');
                 </div>
             </div>
             <div class="col" style="text-align: center">
-                <a class='btn btn-primary' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
+                <a onClick="javascript: return confirm('Attention cette action doit seulement être effectuer à la fin du mois');" class='btn btn-primary' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
                 <a class='btn btn-primary' href="actions/manageMembers.php">Gérer les membres</a>
             </div>
         </div>
