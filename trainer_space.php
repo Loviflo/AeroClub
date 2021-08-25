@@ -22,7 +22,7 @@ require_once('utils/database.php');
                 <div class="col">
                     <?php
                         $bdd = getDatabaseConnection();
-                        $q = 'SELECT * FROM schedule WHERE id_trainer = ? ORDER BY schedule.date ASC';
+                        $q = 'SELECT * FROM schedule WHERE id_trainer = ? ORDER BY schedule.start ASC';
                         $req = $bdd->prepare($q);
                         $req->execute([$_SESSION['user']['id']]);
                         $results = $req->fetchAll();
@@ -32,9 +32,8 @@ require_once('utils/database.php');
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Date de début</th>
-                                <th scope="col">Heure de début</th>
-                                <th scope="col">Durée</th>
+                                <th scope="col">Début</th>
+                                <th scope="col">Fin</th>
                                 <th scope="col">Type d'activité</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -47,11 +46,10 @@ require_once('utils/database.php');
                                 ?>
                             <tbody>
                             <tr>
-                                <td><?= $activities['date']; ?></td>
-                                <td><?= $activities['hour']; ?> </td>
-                                <td><?= $activities['length']; ?> heure(s)</td>
+                                <td><?= $activities['start']; ?></td>
+                                <td><?= $activities['end']; ?> </td>
                                 <td><?= $results2[0]['type']; ?> </td>
-                                <td><a href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&date=' . $activities['date'] . '&hour=' . $activities['hour']?>" class="btn-danger" style="margin: 10px"><i class="fas fa-trash" style="width: 50%; text-align: center"></i></a></td>
+                                <td><a onClick="javascript: return confirm('Veuillez comfirmer l'annulation'');" href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&start=' . $activities['start'] . '&end=' . $activities['end']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -62,8 +60,9 @@ require_once('utils/database.php');
                     <h2 style="text-align: center;">Mes congés : </h2>
                 </div>
             </div>
-            <div style="text-align: center">
+            <div class="col" style="text-align: center">
                 <a class='btn btn-primary' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
+                <a class='btn btn-primary' href="actions/manageMembers.php">Gérer les membres</a>
             </div>
         </div>
         <?php include("utils/footer.php"); ?>

@@ -10,9 +10,9 @@ require_once('../lib/PHPMailer/src/Exception.php');
 require_once(dirname(__DIR__) . "/utils/database.php");
 $bdd = getDatabaseConnection();
 
-$q = "SELECT id_member FROM schedule WHERE id_trainer = ? AND date = ? AND hour = ?";
+$q = "SELECT id_member FROM schedule WHERE id_trainer = ? AND start = ? AND end = ?";
 $req = $bdd->prepare($q);
-$req->execute([$_GET['id_trainer'], $_GET['date'], $_GET['hour']]);
+$req->execute([$_GET['id_trainer'], $_GET['start'], $_GET['end']]);
 $results = $req->fetchAll();
 
 foreach ($results as $key => $members){
@@ -32,9 +32,9 @@ foreach ($results as $key => $members){
     }
 }
 
-$q3 = "DELETE FROM schedule WHERE id_trainer = ? AND date = ? AND hour = ?";
+$q3 = "DELETE FROM schedule WHERE id_trainer = ? AND start = ? AND end = ?";
 $req3 = $bdd->prepare($q3);
-$req3->execute([$_GET['id_trainer'], $_GET['date'], $_GET['hour']]);
+$req3->execute([$_GET['id_trainer'], $_GET['start'], $_GET['end']]);
 
 
 header('location: /AeroClub/trainer_space.php')
