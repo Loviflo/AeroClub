@@ -10,66 +10,69 @@ require_once('utils/database.php');
     <?php include 'utils/head.php'; ?>
     <title>Espace Membre</title>
 </head>
-<div class="wrapper">
-    <?php include 'utils/header.php'; ?>
-    <?php
-    $totalPrice = 0;
-    $totalActivity = 0;
-    $bdd = getDatabaseConnection();
-    $idMember = $_SESSION['user']['id'];
-    $showOldActivites = isset($_GET['oldActivities']) ? null : " AND start > NOW()";
-    $sql = 'SELECT activities.type as type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, activities.cost as cost FROM schedule INNER JOIN activities ON schedule.id_activity = activities.id WHERE id_member = ' . $idMember . $showOldActivites . ' ORDER BY start DESC';
-    $req = $bdd->prepare($sql);
-    $req->execute();
-    $activities = $req->fetchAll();
-    ?>
-    <div class="container">
-        <h1 style="text-align: center;">Espace Membre</h1>
-        <h2 style="text-align: center;">Mes activités</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Début</th>
-                    <th>Fin</th>
-                    <th>Tarif</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $i = 0;
-                foreach ($activities as $key => $activity) { ?>
-                    <tr <?php if (date('Y-m-d H:i', strtotime(str_replace(array('/', 'h'), array('-', ':'), $activity['startFormat']))) < date('Y-m-d H:i') && $i < 1) {
-                            echo 'style="border-top: 5px solid black"';
-                            $i++;
-                        } ?>>
-                        <td scope="row"><?= $activity['type'] ?></td>
-                        <td><?= $activity['startFormat'] ?></td>
-                        <td><?= $activity['end'] ?></td>
-                        <td><?= $activity['cost'] ?> €</td>
-                        <?php
-                        $totalPrice += $activity['cost'];
-                        $totalActivity++;
-                        ?>
+
+<body class="d-flex flex-column h-100">
+
+    <div class="wrapper">
+        <?php include 'utils/header.php'; ?>
+        <?php
+        $totalPrice = 0;
+        $totalActivity = 0;
+        $bdd = getDatabaseConnection();
+        $idMember = $_SESSION['user']['id'];
+        $showOldActivites = isset($_GET['oldActivities']) ? null : " AND start > NOW()";
+        $sql = 'SELECT activities.type as type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, activities.cost as cost FROM schedule INNER JOIN activities ON schedule.id_activity = activities.id WHERE id_member = ' . $idMember . $showOldActivites . ' ORDER BY start DESC';
+        $req = $bdd->prepare($sql);
+        $req->execute();
+        $activities = $req->fetchAll();
+        ?>
+        <div class="container">
+            <h1 style="text-align: center;">Espace Membre</h1>
+            <h2 style="text-align: center;">Mes activités</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Début</th>
+                        <th>Fin</th>
+                        <th>Tarif</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td><?= $totalActivity ?></td>
-                    <td></td>
-                    <td></td>
-                    <td><?= $totalPrice ?> €</td>
-                </tr>
-            </tfoot>
-        </table>
-        <?php if (!isset($_GET['oldActivities'])) { ?>
-            <a class="btn btn-primary text-center text-muted" style="background-color:#B8CCCF; border-color: #B8CCCF;" href="/AeroClub/memberActivities.php?oldActivities=yes" role="button">Voir mes anciennes activités</a>
-        <?php } else { ?>
-            <a class="btn btn-primary text-center text-muted" style="background-color:#B8CCCF; border-color: #B8CCCF;" href="/AeroClub/memberActivities.php" role="button">Cacher mes anciennes activités</a>
-        <?php } ?>
+                </thead>
+                <tbody>
+                    <?php $i = 0;
+                    foreach ($activities as $key => $activity) { ?>
+                        <tr <?php if (date('Y-m-d H:i', strtotime(str_replace(array('/', 'h'), array('-', ':'), $activity['startFormat']))) < date('Y-m-d H:i') && $i < 1) {
+                                echo 'style="border-top: 5px solid black"';
+                                $i++;
+                            } ?>>
+                            <td scope="row"><?= $activity['type'] ?></td>
+                            <td><?= $activity['startFormat'] ?></td>
+                            <td><?= $activity['end'] ?></td>
+                            <td><?= $activity['cost'] ?> €</td>
+                            <?php
+                            $totalPrice += $activity['cost'];
+                            $totalActivity++;
+                            ?>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><?= $totalActivity ?></td>
+                        <td></td>
+                        <td></td>
+                        <td><?= $totalPrice ?> €</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <?php if (!isset($_GET['oldActivities'])) { ?>
+                <a class="btn btn-primary text-center text-muted" style="background-color:#B8CCCF; border-color: #B8CCCF;" href="/AeroClub/memberActivities.php?oldActivities=yes" role="button">Voir mes anciennes activités</a>
+            <?php } else { ?>
+                <a class="btn btn-primary text-center text-muted" style="background-color:#B8CCCF; border-color: #B8CCCF;" href="/AeroClub/memberActivities.php" role="button">Cacher mes anciennes activités</a>
+            <?php } ?>
+        </div>
     </div>
-</div>
-<?php include("utils/footer.php"); ?>
+    <?php include("utils/footer.php"); ?>
 </body>
 <script>
     function deletehref(link) {

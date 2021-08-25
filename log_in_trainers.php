@@ -5,8 +5,7 @@
         <?php include 'utils/head.php'; ?>
         <title><?php echo $site->pagesClientSide->signInClient->pageTitle; ?></title>
     </head>
-    <body>
-        <?php include 'utils/header.php'; ?>
+    <body class="d-flex flex-column h-100">        <?php include 'utils/header.php'; ?>
         <?php
         echo isset($_GET['msg'])?$_GET['msg']:null; ?>
         <div class="container">

@@ -5,8 +5,7 @@
         <?php include 'utils/head.php'; ?>
         <title>Connexion Membre</title>
     </head>
-    <body>
-        <?php include 'utils/header.php'; ?>
+    <body class="d-flex flex-column h-100">        <?php include 'utils/header.php'; ?>
         <div class="container">
             <?php echo isset($_GET['ifail'])?$_GET['ifail']:null; ?>
             <h1 class="mt-3">Connexion</h1>

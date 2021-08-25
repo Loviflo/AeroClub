@@ -10,8 +10,7 @@
     ?>
 </head>
 
-<body>
-    <?php include 'utils/header.php'; ?>
+<body class="d-flex flex-column h-100">    <?php include 'utils/header.php'; ?>
     <?php
     require_once('utils/database.php');
     require 'src/Calendar/Month.php';

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 19, 2021 at 08:30 PM
+-- Generation Time: Aug 25, 2021 at 02:00 PM
 -- Server version: 5.7.24
--- PHP Version: 7.3.7
+-- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -53,8 +53,10 @@ CREATE TABLE `members` (
   `id` int(11) NOT NULL,
   `firstname` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
+  `birthDate` date NOT NULL,
   `level` enum('Aucun Brevet','Brevet de Base','Licence Pilote d''Avion Léger','Brevet de Pilote Privé') NOT NULL DEFAULT 'Aucun Brevet',
   `mail` varchar(100) NOT NULL,
+  `additionalCost` int(11) NOT NULL,
   `password` varchar(128) NOT NULL,
   `soloHours` int(11) NOT NULL DEFAULT '0',
   `trainingHours` int(11) NOT NULL DEFAULT '0'
@@ -64,10 +66,12 @@ CREATE TABLE `members` (
 -- Dumping data for table `members`
 --
 
-INSERT INTO `members` (`id`, `firstname`, `lastname`, `level`, `mail`, `password`, `soloHours`, `trainingHours`) VALUES
-(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 2, 0),
-(6, 'Vivian', 'Ruhlmann', 'Brevet de Base', 'vivian.ru@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
-(7, 'Kilian', 'Cassaigne', 'Aucun Brevet', 'kicass@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0);
+INSERT INTO `members` (`id`, `firstname`, `lastname`, `birthDate`, `level`, `mail`, `additionalCost`, `password`, `soloHours`, `trainingHours`) VALUES
+(5, 'Vivian', 'Ruhlmann', '2001-05-18', 'Aucun Brevet', 'vivian.fr@free.fr', 0, 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 2, 0),
+(6, 'Vivian', 'Ruhlmann', '1997-05-18', 'Brevet de Base', 'vivian.ru@free.fr', 0, 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
+(7, 'Kilian', 'Cassaigne', '1998-09-25', 'Aucun Brevet', 'kicass@free.fr', 0, 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
+(10, 'Pierre', 'Pierre', '2001-05-18', 'Aucun Brevet', 'pierre@gmail.com', 0, 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0),
+(11, 'Patrick', 'Patrick', '1990-03-14', 'Aucun Brevet', 'patrick@gmail.com', 114, 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -190,7 +194,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `planes`
@@ -202,7 +206,7 @@ ALTER TABLE `planes`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `trainers`

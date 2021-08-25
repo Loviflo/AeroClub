@@ -15,8 +15,7 @@ require_once('utils/database.php');
         <?php include 'utils/head.php'; ?>
         <title>Espace Formateur</title>
     </head>
-    <body>
-        <?php include 'utils/header.php'; ?>
+    <body class="d-flex flex-column h-100">        <?php include 'utils/header.php'; ?>
         <div class="container">
             <h1 style="text-align: center;">Espace formateur</h1>
             <div class="row">

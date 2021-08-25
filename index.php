@@ -10,7 +10,7 @@
     ?>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
     <?php include 'utils/header.php'; ?>
     <div class="parallax">
     </div>

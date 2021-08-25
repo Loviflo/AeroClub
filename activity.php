@@ -11,8 +11,7 @@
     ?>
 </head>
 
-<body>
-    <?php
+<body class="d-flex flex-column h-100">    <?php
     require_once('utils/database.php');
     include 'utils/header.php';
     $activities = new Calendar\Activities();
