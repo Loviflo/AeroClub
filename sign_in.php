@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <?php include 'utils/head.php'; ?>
-    <title><?php echo $site->pagesClientSide->signInClient->pageTitle; ?></title>
+    <title>Inscription</title>
 </head>
 
 <body class="d-flex flex-column h-100"> <?php include 'utils/header.php'; ?>

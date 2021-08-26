@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 26, 2021 at 06:59 PM
+-- Generation Time: Aug 25, 2021 at 04:26 PM
 -- Server version: 5.7.24
--- PHP Version: 7.3.7
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -75,7 +75,7 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `level`, `mail`, `password`, `soloHours`, `trainingHours`, `signInDate`, `birthDate`, `additionalCost`, `payed`) VALUES
-(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 2, 8, '2020-01-01', '2020-01-01', 0, 0),
+(5, 'Vivian', 'Ruhlmann', 'Aucun Brevet', 'vivian.fr@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 2, 0, '2020-01-01', '2020-01-01', 0, 0),
 (6, 'Vivian', 'Ruhlmann', 'Brevet de Base', 'vivian.ru@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 0, 0, '2020-01-01', '2020-01-01', 0, 1),
 (7, 'Kilian', 'Cassaigne', 'Aucun Brevet', 'kicass@free.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7', 4, 0, '2020-01-01', '2020-01-01', 0, 1);
 
@@ -111,29 +111,20 @@ CREATE TABLE `schedule` (
   `id` int(11) NOT NULL,
   `id_member` int(11) NOT NULL,
   `id_activity` int(11) NOT NULL,
-  `id_trainer` int(11) DEFAULT NULL,
+  `id_trainer` int(11) NOT NULL DEFAULT '99',
   `id_plane` int(11) NOT NULL,
   `start` datetime NOT NULL,
-  `end` datetime NOT NULL,
-  `mode` enum('solo','trainer') DEFAULT NULL
+  `end` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `schedule`
 --
 
-INSERT INTO `schedule` (`id`, `id_member`, `id_activity`, `id_trainer`, `id_plane`, `start`, `end`, `mode`) VALUES
-(2, 6, 3, 1, 3, '2021-08-19 16:00:00', '2021-08-19 18:00:00', NULL),
-(3, 7, 4, 1, 2, '2021-08-19 12:00:00', '2021-08-19 14:00:00', NULL),
-(8, 6, 3, 1, 4, '2021-08-26 16:00:00', '2021-08-26 18:00:00', NULL),
-(9, 6, 9, 1, 2, '2021-08-27 14:00:00', '2021-08-27 16:00:00', NULL),
-(11, 5, 2, 1, 1, '2021-08-28 12:00:00', '2021-08-28 14:00:00', 'trainer'),
-(12, 5, 2, 1, 1, '2021-08-29 16:00:00', '2021-08-29 18:00:00', 'trainer'),
-(13, 5, 2, 1, 1, '2021-08-28 18:00:00', '2021-08-28 20:00:00', 'trainer'),
-(14, 5, 2, 3, 1, '2021-08-29 18:00:00', '2021-08-29 20:00:00', 'trainer'),
-(15, 5, 2, NULL, 1, '2021-08-28 16:00:00', '2021-08-28 18:00:00', 'solo'),
-(16, 5, 4, 3, 2, '2021-08-27 12:00:00', '2021-08-27 14:00:00', NULL),
-(17, 5, 9, 3, 2, '2021-08-27 14:00:00', '2021-08-27 16:00:00', NULL);
+INSERT INTO `schedule` (`id`, `id_member`, `id_activity`, `id_trainer`, `id_plane`, `start`, `end`) VALUES
+(2, 6, 3, 1, 3, '2021-08-19 16:00:00', '2021-08-19 18:00:00'),
+(3, 7, 4, 1, 2, '2021-08-19 12:00:00', '2021-08-19 14:00:00'),
+(7, 5, 2, 1, 1, '2021-08-16 18:00:00', '2021-08-08 20:00:00');
 
 -- --------------------------------------------------------
 
@@ -154,9 +145,7 @@ CREATE TABLE `trainers` (
 --
 
 INSERT INTO `trainers` (`id`, `firstname`, `lastname`, `mail`, `password`) VALUES
-(1, 'Pierre', 'Martin', 'pierre.martin@aeroclub.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7'),
-(2, 'Paul', 'martin', 'paul.martin@aeroclub.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7'),
-(3, 'Jean', 'martin', 'jean.martin@aeroclub.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7');
+(1, 'Pierre', 'Martin', 'pierre.martin@aeroclub.fr', 'b43f1d28a3dbf30070bf1ae7c88ee2784047fc86d7be8620c8510debbd8555b3ef0b96376a4dd494ae0561580274bcf7a3069f5c0beceff63d1237a13d4d72b7');
 
 --
 -- Indexes for dumped tables
@@ -210,7 +199,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `planes`
@@ -222,13 +211,13 @@ ALTER TABLE `planes`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `trainers`
 --
 ALTER TABLE `trainers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

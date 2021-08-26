@@ -10,6 +10,7 @@ $type = $_GET['type'];
 $db = getDatabaseConnection();
 $week = $_GET['week'];
 $year = $_GET['year'];
+$mode = isset($_GET['mode']) ? $_GET['mode'] :null;
 
 switch ($hour) {
     case 1:
@@ -43,34 +44,43 @@ switch ($hour) {
         $dateStart = $dateStart->format('Y-m-d H:i:s');
         break;
 }
+/* 
 
+*/
 switch ($type) {
     case 2:
         $plane = 1;
-        $price = 323.2;
         break;
     case 4:
         $plane = 2;
-        $price = 390;
         break;
     case 3:
         $plane = rand(3, 4);
-        $price = 390;
+        break;
+    case 9:
+        $plane = 2;
         break;
 }
 
 $db = getDatabaseConnection();
-$q = 'INSERT INTO schedule (id_activity,start,end,id_member,id_trainer,id_plane) VALUES (?, ?, ?, ?, ?, ?)';
-$req = $db->prepare($q);
-$req->execute([$type, $dateStart, $dateEnd, $idMember, 1, $plane]);
+if ($mode != 'solo') {
+    $result = $db->query("SELECT trainers.id FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '". $dateStart ."' AND id_trainer = trainers.id) ORDER BY RAND() LIMIT 1")->fetch();
+}
+$idTrainer = isset($result['id']) ? $result['id'] : null;
 
-if ($type == 'BREVET') {
+$q = 'INSERT INTO schedule (id_activity,start,end,id_member,id_trainer,id_plane,mode) VALUES (?, ?, ?, ?, ?, ?, ?)';
+$req = $db->prepare($q);
+$req->execute([$type, $dateStart, $dateEnd, $idMember, $idTrainer, $plane, $mode]);
+
+if ($type == 2) {
+if ($mode == 'trainer') {
     $sql = 'UPDATE members SET trainingHours = trainingHours+2 WHERE id = "' . $idMember . '"';
-} else {
+} else if($mode == 'solo') {
     $sql = 'UPDATE members SET soloHours = soloHours+2 WHERE id = "' . $idMember . '"';
 }
 $req = $db->prepare($sql);
 $req->execute();
+}
 
 
 header('location: ../CalendarWeek.php?type=' . $type . '&week=' . $week . '&year=' . $year . '');

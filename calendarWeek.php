@@ -55,9 +55,11 @@
     $start = $week->getFirstDay();
     $end = (clone $start)->modify('+ 6 days');
     $activities = $activities->getActivitiesBetweenByDay($start, $end, $type);
-    $reserved = $hours->getActivitiesByHour($start, $end, $type);
     $weekGET = $week->week;
     $yearGET = $week->year;
+    $getWeek = isset($_GET['week']) ? $_GET['week'] : $week->week;
+    $getYear = isset($_GET['year']) ? $_GET['year'] : $week->year;
+    $reserved = $hours->getActivitiesByHour($start, $end, $type, $getYear, $getWeek);
     ?>
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
@@ -96,7 +98,7 @@
                         // $reserved[$d][$h] == 3 Pour l'ULM quand il n'y a plus qu'un place
                         // else Quand il y a de la place
                         if ($reserved[$d][$h] == 1) { ?>
-                            <td style="background-color: #A7A7A9;" rel="tooltip" data-bs-placement="top" title="Il n'y a malheureusement plus de place pour cet horaire."></td>
+                            <td style="background-color: #A7A7A9;" rel="tooltip" data-bs-placement="top" title="Il n'est malheureusement pas possible de réserver pour cet horaire."></td>
                         <?php } else if ($reserved[$d][$h] == 2) { ?>
                             <td class="cursor-pointer" onmouseover=style.backgroundColor='#64403E' ; onmouseout=style.backgroundColor='#5d737e' ; style="background-color: #5d737e;" rel="tooltip" data-placement="top" title="Annuler votre activité." data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="actions/delete_activity.php?hour=<?= $h ?>&day=<?= $date->format('Y-m-d') ?>&type=<?= $type ?>&week=<?= $weekGET ?>&year=<?= $yearGET ?>"></td>
                         <?php } else if ($reserved[$d][$h] == 3) { ?>
@@ -123,7 +125,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <?php if($type == 2) { ?>
+                        <a type="button" id="solo" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Seul</a>
+                        <a type="button" id="trainer" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Avec le moniteur</a>
+                        <?php } else { ?>
                     <a type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -161,9 +168,17 @@
         // and then do the updating in a callback.
         //
         // Update the modal's content.
-        var a = validationModal.querySelector('.modal-footer a')
-
-        a.href = recipient
+        <?php if($type == 2) { ?>
+            solo = recipient + '&mode=solo';
+            trainer = recipient + '&mode=trainer';
+            var soloButton = validationModal.querySelector('.modal-footer #solo');
+            soloButton.href = solo
+            var trainerButton = validationModal.querySelector('.modal-footer #trainer');
+            trainerButton.href = trainer
+        <?php } else { ?>
+            var a = validationModal.querySelector('.modal-footer #send');
+            a.href = recipient
+        <?php } ?>
     });
     var deleteActivityModal = document.getElementById('deleteActivityModal')
     deleteActivityModal.addEventListener('show.bs.modal', function(event) {

@@ -19,7 +19,8 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=2">Formation</a></li>
                                     <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=3">ULM</a></li>
-                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=4">Autre</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=4">Saut en parachute</a></li>
+                                    <li><a class="dropdown-item" href="/AeroClub/CalendarWeek.php?type=9">Baptême de l'air</a></li>
                                 </ul>
                             </li>
                         </ul>

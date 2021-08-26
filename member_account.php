@@ -8,7 +8,7 @@ require('utils/database.php');
 <head>
     <meta charset="UTF-8">
     <?php include 'utils/head.php'; ?>
-    <title>Espace Membre</title>
+    <title>Espace Membre - Compte</title>
 </head>
 
 <body class="d-flex flex-column h-100">

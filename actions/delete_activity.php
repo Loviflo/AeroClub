@@ -39,16 +39,20 @@ switch ($hour) {
 }
 
 $db = getDatabaseConnection();
+$result = $db->query("SELECT mode From schedule WHERE start = '". $dateStart ."' AND id_member = ". $idMember ." AND id_activity = ". $type)->fetch();
+
+if (isset($result['mode'])) {
+    if ($result['mode'] == 'trainer') {
+        $sql = 'UPDATE members SET trainingHours = trainingHours-2 WHERE id = "' . $idMember . '"';
+    } else if($result['mode'] == 'solo') {
+        $sql = 'UPDATE members SET soloHours = soloHours-2 WHERE id = "' . $idMember . '"';
+    }
+    $req = $db->prepare($sql);
+    $req->execute();
+}
+
 $sql = 'DELETE FROM schedule WHERE start = ? AND id_member = ? AND id_activity = ?';
 $req = $db->prepare($sql);
 $req->execute([$dateStart, $idMember, $type]);
-
-if ($type == 'BREVET') {
-    $sql = 'UPDATE members SET trainingHours = trainingHours-2 WHERE id = "' . $idMember . '"';
-} else {
-    $sql = 'UPDATE members SET soloHours = soloHours-2 WHERE id = "' . $idMember . '"';
-}
-$req = $db->prepare($sql);
-$req->execute();
 
 header('location: ../CalendarWeek.php?type=' . $type . '&week=' . $week . '&year=' . $year . '');

@@ -1,0 +1,2 @@
+SELECT trainers.id FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '2021-08-29 16:00:00' AND id_trainer = trainers.id) ORDER BY RAND() LIMIT 1
+SELECT COUNT(trainers.id) as count FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '2021-08-29 16:00:00' AND id_trainer = trainers.id)

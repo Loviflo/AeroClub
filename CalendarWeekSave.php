@@ -25,7 +25,7 @@
     $start = $week->getFirstDay();
     $end = (clone $start)->modify('+ 6 days');
     $activities = $activities->getActivitiesBetweenByDay($start, $end);
-    $hours = $hours->getActivitiesByHour($start,$end);
+    $hours = $hours->getActivitiesByHour($start, $end);
     ?>
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
@@ -58,17 +58,10 @@
                     $date = (clone $start)->modify("+" . $k . " days");
                     $activitiesForDay = $activities[$date->format('Y-m-d')] ?? [];
                 ?>
-                    <td  
-                    <?php foreach ($activitiesForDay as $activity) : ?>
-                            <?php for ($j = 1; $j < 6; $j++) : ?>
-                                <?php if ((new DateTime($activity['start']))->format('H') == 2 * $j + 8 && $i == $j) {
-                                     ?>style="background-color: grey;"
-                                <?php } else if((new DateTime($activity['start']))->format('H') == 2 * $j + 8 && $i !== $j && $i !== 0) { ?> onmouseover="style.backgroundColor = 'blue';" onmouseout="style.backgroundColor = ''" onclick="console.log('hello')"
-                            <?php } endfor; ?>
-                        <?php endforeach; ?> 
-                        <?php for ($j = 1; $j < 6; $j++) : ?>
-                            <?php if($i !== $j && $i !== 0) { ?> onmouseover="style.backgroundColor = 'blue';" onmouseout="style.backgroundColor = ''" onclick="console.log('hello')"
-                        <?php } endfor; ?> >
+                    <td <?php foreach ($activitiesForDay as $activity) : ?> <?php for ($j = 1; $j < 6; $j++) : ?> <?php if ((new DateTime($activity['start']))->format('H') == 2 * $j + 8 && $i == $j) {
+                                                                                                                    ?>style="background-color: grey;" <?php } else if ((new DateTime($activity['start']))->format('H') == 2 * $j + 8 && $i !== $j && $i !== 0) { ?> onmouseover="style.backgroundColor = 'blue';" onmouseout="style.backgroundColor = ''" onclick="console.log('hello')" <?php }
+                                                                                                                                                                                                                                                                                                    endfor; ?> <?php endforeach; ?> <?php for ($j = 1; $j < 6; $j++) : ?> <?php if ($i !== $j && $i !== 0) { ?> onmouseover="style.backgroundColor = 'blue';" onmouseout="style.backgroundColor = ''" onclick="console.log('hello')" <?php }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            endfor; ?>>
                         <?php if ($i === 0) : ?>
                             <div class="calendar__weekday"><?= $day; ?></div>
                             <div class="calendar__day"><?= $date->format('d/m'); ?></div>
