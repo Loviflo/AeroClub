@@ -28,8 +28,16 @@ require_once('utils/database.php');
         }elseif ($level['level'] === "License Pilote D'avion léger"){
             $toStringLevel = "Brevet de Pilote Privé";
         }
-        $soloLeft = $bdd->query("SELECT soloRequired From activities WHERE name = '$toStringLevel' LIMIT 1")->fetch();
-        $trainingLeft = $bdd->query("SELECT trainingRequired From activities WHERE name = '$toStringLevel' LIMIT 1")->fetch();
+
+        $q = "SELECT soloRequired From activities WHERE name = ? LIMIT 1";
+        $req = $bdd->prepare($q);
+        $req->execute([$toStringLevel]);
+        $soloRequired = $req->fetch();
+
+        $q2 = "SELECT trainingRequired From activities WHERE name = ? LIMIT 1";
+        $req2 = $bdd->prepare($q2);
+        $req2->execute([$toStringLevel]);
+        $trainingRequired = $req2->fetch();
         ?>
         <div class="container">
             <h1 style="text-align: center;">Espace Membre</h1>
@@ -49,8 +57,8 @@ require_once('utils/database.php');
                         <td><?= $soloHours['soloHours']; ?></td>
                         <td><?= $trainingHours['trainingHours']; ?></td>
                         <td><?= $toStringLevel; ?></td>
-                        <td><?= ($soloLeft['soloRequired'] - $soloHours['soloHours']) <= 0? 0: $soloLeft['soloRequired'] - $soloHours['soloHours']; ?></td>
-                        <td><?= ($trainingLeft['trainingRequired'] - $trainingHours['trainingHours']) <= 0? 0: $trainingLeft['trainingRequired'] - $trainingHours['trainingHours']; ?></td>
+                        <td><?= ($soloRequired['soloRequired'] - $soloHours['soloHours']) <= 0? 0: $soloRequired['soloRequired'] - $soloHours['soloHours']; ?></td>
+                        <td><?= ($trainingRequired['trainingRequired'] - $trainingHours['trainingHours']) <= 0? 0: $trainingRequired['trainingRequired'] - $trainingHours['trainingHours']; ?></td>
                     </tr>
                 </tbody>
             </table>
