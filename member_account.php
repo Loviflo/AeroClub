@@ -23,36 +23,30 @@ require('utils/database.php');
             $member = $bdd->query("SELECT * From members WHERE id = '$id' LIMIT 1")->fetch();
             ?>
             <div class="container">
+                <?php echo isset($_GET['ifail'])?$_GET['ifail']:null; ?>
                 <h1 style="text-align: center;">Espace Membre</h1>
                 <h2 style="text-align: center;">Mon compte</h2>
                 <div class="card">
-                    <img class="card-img-top" src="" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title">Mon compte</h4>
-                        <p class="card-text"><?= $member['firstname'] . ' ' . $member['lastname'] ?></p>
+                        <div class="row">
+                            <div class="col">
+                                <img style="width: 10%" src="Images/Profil%20Icon.png" alt="Card image cap">
+                            </div>
+                            <div class="col">
+                                <h4 class="card-title">Nom complet</h4>
+                                <p class="card-text"><?= $member['firstname'] . ' ' . $member['lastname'] ?></p>
+                            </div>
+                        </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            Mail : <?= $member['mail'] ?>
-                            <form action="actions/changeMail.php" method="post">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group mb-3">
-                                            <input type="email" class="form-control" id="email" placeholder="Nouvel email..." name="email" required>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group mb-3">
-                                            <button type="submit" class="btn btn-primary">Valider</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
+                        <li class="list-group-item">Mail : <?= $member['mail'] ?></li>
                         <li class="list-group-item">Votre niveau : <?= $member['level'] ?></li>
                     </ul>
                 </div>
             </div>
+        </div>
+        <div style="text-align: center">
+            <a class="btn btn-primary" href="actions/updateInfo.php">Modifier mes informations</a>
         </div>
         <?php include("utils/footer.php"); ?>
     </body>
@@ -63,5 +57,4 @@ require('utils/database.php');
             idDeleteURL.href = href;
         }
     </script>
-
 </html>

@@ -16,10 +16,10 @@ require_once('utils/database.php');
         <?php include 'utils/header.php'; ?>
         <?php
         $bdd = getDatabaseConnection();
-        $mail = $_SESSION['user']['mail'];
-        $soloHours = $bdd->query("SELECT soloHours From members WHERE mail = '$mail' LIMIT 1")->fetch();
-        $trainingHours = $bdd->query("SELECT trainingHours From members WHERE mail = '$mail' LIMIT 1")->fetch();
-        $level = $bdd->query("SELECT level From members WHERE mail = '$mail' LIMIT 1")->fetch();
+        $id = $_SESSION['user']['id'];
+        $soloHours = $bdd->query("SELECT soloHours From members WHERE id = '$id' LIMIT 1")->fetch();
+        $trainingHours = $bdd->query("SELECT trainingHours From members WHERE id = '$id' LIMIT 1")->fetch();
+        $level = $bdd->query("SELECT level From members WHERE id = '$id' LIMIT 1")->fetch();
 
         if ($level['level'] === "Aucun Brevet"){
             $toStringLevel = "Brevet de Base";

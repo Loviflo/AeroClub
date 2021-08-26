@@ -17,7 +17,7 @@ require_once('../utils/database.php');
     $bdd = getDatabaseConnection();
     $q = 'SELECT * FROM members WHERE id = ?';
     $req = $bdd->prepare($q);
-    $req->execute([$_GET['id_member']]);
+    $req->execute([$_SESSION['user']['id']]);
     $member = $req->fetch();
     ?>
     <div class="container">

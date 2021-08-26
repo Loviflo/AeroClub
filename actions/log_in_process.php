@@ -16,7 +16,7 @@ if (count($results) == 0) {
     header('location: ../log_in.php?ifail=Identifiants incorrects');
 } else {
     session_start();
-    $_SESSION['user'] = array('mail' => $mail, 'rank' => 'member', 'id' => $results[0]['id']);
+    $_SESSION['user'] = array('rank' => 'member', 'id' => $results[0]['id']);
 
     header('location: ../index.php');
     exit();
