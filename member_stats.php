@@ -15,6 +15,7 @@ require_once('utils/database.php');
     <div class="wrapper">
         <?php include 'utils/header.php'; ?>
         <?php
+        $nothingleft = false;
         $bdd = getDatabaseConnection();
         $id = $_SESSION['user']['id'];
         $soloHours = $bdd->query("SELECT soloHours From members WHERE id = '$id' LIMIT 1")->fetch();
@@ -66,14 +67,14 @@ require_once('utils/database.php');
                         <td><?= $toStringLevel; ?></td>
                         <td><?php
                             if(!$nothingleft){
-                                ($soloRequired['soloRequired'] - $soloHours['soloHours']) <= 0? 0: $soloRequired['soloRequired'] - $soloHours['soloHours'];
+                               echo $soloRequired['soloRequired'] - $soloHours['soloHours'];
                             }else{
                                 echo '-';
                             }
                              ?></td>
                         <td><?php
                             if(!$nothingleft){
-                                ($trainingRequired['trainingRequired'] - $trainingHours['trainingHours']) <= 0? 0: $trainingRequired['trainingRequired'] - $trainingHours['trainingHours'];
+                                echo $trainingRequired['trainingRequired'] - $trainingHours['trainingHours'];
                             }else{
                                 echo '-';
                             }
