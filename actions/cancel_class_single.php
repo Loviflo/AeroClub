@@ -17,11 +17,11 @@ $results = $req->fetchAll();
 
 if ($_GET['mode'] !== NULL){
     if ($_GET['mode'] == 'solo'){
-        $q3 = "UPDATE members SET soloHours - 2 WHERE id = ?";
+        $q3 = "UPDATE members SET soloHours = soloHours - 2 WHERE id = ?";
         $req3 = $bdd->prepare($q3);
         $req3->execute([$_GET['id_member']]);
     }else {
-        $q4 = "UPDATE members SET trainingHours - 2 WHERE id = ?";
+        $q4 = "UPDATE members SET trainingHours = trainingHours - 2 WHERE id = ?";
         $req4 = $bdd->prepare($q4);
         $req4->execute([$_GET['id_member']]);
     }
@@ -38,10 +38,10 @@ foreach ($results as $key => $mails){
 }
 
 
-$q3 = "DELETE FROM schedule WHERE id_member = ? AND start = ? AND end = ?";
+$q3 = "DELETE FROM schedule WHERE id_member = ? AND start = ?";
 $req3 = $bdd->prepare($q3);
-$req3->execute([$_GET['id_member'], $_GET['start'], $_GET['end']]);
+$req3->execute([$_GET['id_member'], $_GET['start']]);
 
 
-header('location: seeDetails.php')
+header('location: seeDetails.php?id_member=' . $_GET['id_member'] . '')
 ?>

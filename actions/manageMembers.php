@@ -48,7 +48,7 @@ require_once('../utils/database.php');
                                     <td><?= $members['level']; ?> </td>
                                     <td>
                                         <a href="seeDetails.php?id_member=<?php echo $members['id'] ?>" class="btn btn-primary buttonColor"><i class="far fa-eye" style="text-align: center"></i></a>
-                                        <a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="deleteMember.php?id_member=<?php echo $members['id'] ?>" class="btn btn-danger"><i class="fas fa-trash" style="text-align: center"></i></a>
+                                        <a data-bs-toggle="modal" data-bs-target="#deleteMemberModal" data-bs-url="deleteMember.php?id_member=<?= $members['id'] ?>" class="btn btn-danger"><i class="fas fa-trash" style="text-align: center"></i></a>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -58,5 +58,38 @@ require_once('../utils/database.php');
             </div>
         </div>
     </div>
+
+    <!-- Modal suppression d'un membre -->
+    <div class="modal fade" id="deleteMemberModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Suppression d'un membre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="message-text" class="col-form-label">Êtes-vous sûr de supprimer ce membre ?</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php include("../utils/footer.php"); ?>
 </body>
+</html>
+
+<script>
+    // Script permettant de récupérer le lien
+    var deleteMemberModal = document.getElementById('deleteMemberModal')
+    deleteMemberModal.addEventListener('show.bs.modal', function(event) {
+        // Le bouton qui a déclenché la modal
+        var button = event.relatedTarget
+        var recipient = button.getAttribute('data-bs-url')
+        var a = deleteMemberModal.querySelector('.modal-footer a')
+        a.href = recipient
+    });
+</script>

@@ -71,12 +71,46 @@ $now = new dateTime("now", new dateTimezone('Europe/Paris'));
                             <td><?= $activities['start']; ?></td>
                             <td><?= $activities['end']; ?> </td>
                             <td><?= $results3[0]['type']; ?> </td>
-                            <td><a onClick="javascript: return confirm('Veuillez comfirmer l'annulation'');" href="actions/cancel_class_single.php?id_member=<?php echo $activities['id_member'] . '&start=' . $activities['start'] . '&end=' . $activities['end'] . '&mode=' . $activities['mode']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
+                            <td><a data-bs-toggle="modal" data-bs-target="#deleteActivityModal" data-bs-url="cancel_class_single.php?id_member=<?php echo $activities['id_member'] . '&start=' . $activities['start'] . '&mode=' . $activities['mode']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>
             </table>
         </ul>
     </div>
+
+    <!-- Modal suppression d'une activité -->
+    <div class="modal fade" id="deleteActivityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Suppression de la réservation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="message-text" class="col-form-label">Êtes-vous sûr de supprimer cette activité ?</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a type="button" id="send" class="btn btn-primary text-muted" style="background-color: #B8CCCF;border-color:#B8CCCF;">Valider</a>
+                </div>
+            </div>
+        </div>
+    </div>            
+
     <?php include("../utils/footer.php"); ?>
 </body>
+</html>
+
+<script>
+    // Script permettant de récupérer le lien
+    var deleteActivityModal = document.getElementById('deleteActivityModal')
+    deleteActivityModal.addEventListener('show.bs.modal', function(event) {
+        // Le bouton qui a déclenché la modal
+        var button = event.relatedTarget
+        var recipient = button.getAttribute('data-bs-url')
+        var a = deleteActivityModal.querySelector('.modal-footer a')
+
+        a.href = recipient
+    });
+</script>

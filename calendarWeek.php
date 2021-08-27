@@ -65,6 +65,7 @@
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
         <?php 
+        // Titre en fonction de l'activité
         switch ($type) {
             case 2:
                 echo '<h1>Formation</h1>';
@@ -84,15 +85,14 @@
                 break;
         }
         ?>
-        <h2><?= $week->toString(); ?></h2>
+        <h2><?= $week->toString(); ?></h2> <!-- Affichage de la date -->
         <div>
-            <a href="?week=<?= $week->previousWeek()->week; ?>&year=<?= $week->previousWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&lt;</a>
-            <a href="?week=<?= $week->nextWeek()->week; ?>&year=<?= $week->nextWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&gt;</a>
+            <a href="?week=<?= $week->previousWeek()->week; ?>&year=<?= $week->previousWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&lt;</a> <!-- Semaine précédente -->
+            <a href="?week=<?= $week->nextWeek()->week; ?>&year=<?= $week->nextWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&gt;</a> <!-- Semaine suivante -->
         </div>
     </div>
 
     <table class="table calendar__table">
-
         <?php
         for ($h = 0; $h < 6; $h++) { ?>
             <tr>
@@ -102,22 +102,24 @@
                         <h3 style="text-align: center;">Heures</h3>
                     <?php endif; ?>
                     <?php if ($h > 0) : ?>
-                        <h4 style="text-align: center;"><?= 2 * $h + 8 ?>h</h4>
-                        <h4 style="text-align: center;"><?= 2 * $h + 10 ?>h</h4>
+                        <h4 style="text-align: center;"><?= 2 * $h + 8 ?>h</h4> <!-- Affichage de l'heure de début -->
+                        <h4 style="text-align: center;"><?= 2 * $h + 10 ?>h</h4> <!-- Affichage de l'heure de fin -->
                     <?php endif; ?>
                 </td>
                 <?php for ($d = 1; $d < 8; $d++) {
                     $date = (clone $start)->modify("+" . $d - 1 . " days");
                     if ($h == 0) { ?>
                         <td>
-                            <div class="calendar__weekday"><?= $week->days[$d - 1] ?></div>
-                            <div class="calendar__day"><?= $date->format('d/m'); ?></div>
+                            <div class="calendar__weekday"><?= $week->days[$d - 1] ?></div> <!-- Affichage du nom du jour -->
+                            <div class="calendar__day"><?= $date->format('d/m'); ?></div> <!-- Affichage du jour au format d/m -->
                         </td>
                         <?php } else {
                         // $reserved[$d][$h] == 1 Plus de place
                         // $reserved[$d][$h] == 2 Réserver par l'utilisateur donc possibilité de supprimer
-                        // $reserved[$d][$h] == 3 Pour l'ULM quand il n'y a plus qu'un place
+                        // $reserved[$d][$h] == 3 Quand il ne reste plus qu'une place
                         // else Quand il y a de la place
+
+                        // Lien, modification de la cellule et changement du curseur
                         if ($reserved[$d][$h] == 1) { ?>
                             <td style="background-color: #A7A7A9;" rel="tooltip" data-bs-placement="top" title="Il n'est malheureusement pas possible de réserver pour cet horaire."></td>
                         <?php } else if ($reserved[$d][$h] == 2) { ?>
@@ -133,7 +135,7 @@
         <?php } ?>
 
     </table>
-    <!-- Modal add activity -->
+    <!-- Modal ajout d'une activité -->
     <div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -158,7 +160,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal delete activity -->
+    <!-- Modal suppression d'une activité -->
     <div class="modal fade" id="deleteActivityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -181,42 +183,38 @@
 
 </html>
 <script>
+
+    // Script permettant de récupérer le lien et de le modifier
     var validationModal = document.getElementById('validationModal')
     validationModal.addEventListener('show.bs.modal', function(event) {
-        // Button that triggered the modal
+        // Le bouton qui a déclenché la modal
         var button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        var recipient = button.getAttribute('data-bs-url')
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
-        <?php if($type == 2) { ?>
+        var recipient = button.getAttribute('data-bs-url');
+        <?php if($type == 2) { ?> // Si l'activité est une formation
             solo = recipient + '&mode=solo';
             trainer = recipient + '&mode=trainer';
             var soloButton = validationModal.querySelector('.modal-footer #solo');
             soloButton.href = solo
             var trainerButton = validationModal.querySelector('.modal-footer #trainer');
             trainerButton.href = trainer
-        <?php } else { ?>
+        <?php } else { ?> // Si l'activité n'est pas une formation
             var a = validationModal.querySelector('.modal-footer #send');
             a.href = recipient
         <?php } ?>
     });
+
+    // Script permettant de récupérer le lien
     var deleteActivityModal = document.getElementById('deleteActivityModal')
     deleteActivityModal.addEventListener('show.bs.modal', function(event) {
-        // Button that triggered the modal
+        // Le bouton qui a déclenché la modal
         var button = event.relatedTarget
-        // Extract info from data-bs-* attributes
         var recipient = button.getAttribute('data-bs-url')
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
         var a = deleteActivityModal.querySelector('.modal-footer a')
 
         a.href = recipient
     });
+
+    // Pour pouvoir afficher une info-bulle en plus
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[rel="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
