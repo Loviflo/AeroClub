@@ -50,7 +50,7 @@ require_once('utils/database.php');
                                 <td><?= $activities['start']; ?></td>
                                 <td><?= $activities['end']; ?> </td>
                                 <td><?= $results2[0]['type']; ?> </td>
-                                <td><a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&start=' . $activities['start'] . '&end=' . $activities['end']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
+                                <td><a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&start=' . $activities['start'] . '&end=' . $activities['end'] . '&mode=' . $activities['end']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
                             </tr>
                             <?php } ?>
                             </tbody>

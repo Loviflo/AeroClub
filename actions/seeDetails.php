@@ -69,7 +69,7 @@ require_once('../utils/database.php');
                             <td><?= $activities['start']; ?></td>
                             <td><?= $activities['end']; ?> </td>
                             <td><?= $results3[0]['type']; ?> </td>
-                            <td><a onClick="javascript: return confirm('Veuillez comfirmer l'annulation'');" href="actions/cancel_class_single.php?id_member=<?php echo $activities['id_member'] . '&start=' . $activities['start'] . '&end=' . $activities['end'] ?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
+                            <td><a onClick="javascript: return confirm('Veuillez comfirmer l'annulation'');" href="actions/cancel_class_single.php?id_member=<?php echo $activities['id_member'] . '&start=' . $activities['start'] . '&end=' . $activities['end'] . '&mode=' . $activities['mode']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>

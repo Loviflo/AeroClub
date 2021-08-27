@@ -15,6 +15,18 @@ $req = $bdd->prepare($q);
 $req->execute([$_GET['id_member']]);
 $results = $req->fetchAll();
 
+if ($_GET['mode'] !== NULL){
+    if ($_GET['mode'] == 'solo'){
+        $q3 = "UPDATE members SET soloHours - 2 WHERE id = ?";
+        $req3 = $bdd->prepare($q3);
+        $req3->execute([$_GET['id_member']]);
+    }else {
+        $q4 = "UPDATE members SET trainingHours - 2 WHERE id = ?";
+        $req4 = $bdd->prepare($q4);
+        $req4->execute([$_GET['id_member']]);
+    }
+}
+
 foreach ($results as $key => $mails){
     $email = new PHPMailer();
     $email->SetFrom('Aeroclub@aeroclub.com');
