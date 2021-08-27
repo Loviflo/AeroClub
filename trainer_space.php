@@ -25,7 +25,7 @@ require_once('utils/database.php');
                 <div class="col">
                     <?php
                         $bdd = getDatabaseConnection();
-                        $q = 'SELECT * FROM schedule WHERE id_trainer = ? AND start > ? ORDER BY schedule.start ASC';
+                        $q = 'SELECT DISTINCT(start) as start, end, id_activity, id_trainer, mode FROM schedule WHERE id_trainer = ? AND start > ? ORDER BY schedule.start ASC';
                         $req = $bdd->prepare($q);
                         $req->execute([$_SESSION['user']['id'], $now->format('Y-m-d H:i:s')]);
                         $results = $req->fetchAll();
@@ -41,18 +41,30 @@ require_once('utils/database.php');
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
-                            <?php foreach ($results as $key => $activities) {
-                                    $q2 = 'SELECT * FROM activities WHERE id = ?';
+                            <?php foreach ($results as $key => $activity) {
+                                    $q2 = 'SELECT * FROM activity WHERE id = ?';
                                     $req2 = $bdd->prepare($q2);
-                                    $req2->execute([$activities['id_activity']]);
-                                    $results2 = $req2->fetchAll();
+                                    switch ($activity['id_activity']) {
+                                        case 2:
+                                            $type = 'Formation';
+                                            break;
+                                        case 3:
+                                            $type = 'ULM';
+                                            break;
+                                        case 4:
+                                            $type = 'Saut en parachute';
+                                            break;
+                                        case 9:
+                                            $type = 'Baptême de l\'air';
+                                            break;
+                                    }
                                 ?>
                             <tbody>
                             <tr>
-                                <td><?= $activities['start']; ?></td>
-                                <td><?= $activities['end']; ?> </td>
-                                <td><?= $results2[0]['type']; ?> </td>
-                                <td><a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="actions/cancel_class.php?id_trainer=<?php echo $activities['id_trainer'] . '&start=' . $activities['start'] . '&end=' . $activities['end'] . '&mode=' . $activities['end']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
+                                <td><?= $activity['start']; ?></td>
+                                <td><?= $activity['end']; ?> </td>
+                                <td><?= $type; ?> </td>
+                                <td><a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="actions/cancel_class.php?id_trainer=<?php echo $activity['id_trainer'] . '&start=' . $activity['start'] . '&mode=' . $activity['mode']?>" class="btn btn-danger" style="margin: 10px"><i class="fas fa-trash" style="text-align: center"></i></a></td>
                             </tr>
                             <?php } ?>
                             </tbody>
@@ -61,8 +73,8 @@ require_once('utils/database.php');
                 </div>
             </div>
             <div class="col" style="text-align: center">
-                <a onClick="javascript: return confirm('Attention cette action doit seulement être effectuer à la fin du mois');" class='btn btn-primary' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
-                <a class='btn btn-primary' href="actions/manageMembers.php">Gérer les membres</a>
+                <a onClick="javascript: return confirm('Attention cette action doit seulement être effectuer à la fin du mois');" class='btn btn-primary buttonColor' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
+                <a class='btn btn-primary buttonColor' href="actions/manageMembers.php">Gérer les membres</a>
             </div>
         </div>
         <?php include("utils/footer.php"); ?>

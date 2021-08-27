@@ -42,6 +42,7 @@ require_once('utils/database.php');
         <div class="container">
             <h1 style="text-align: center;">Espace Membre</h1>
             <h2 style="text-align: center;">Mes statistiques</h2>
+            <a href="/AeroClub/member_space.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">&lt;</a>
             <table class="table">
                 <thead>
                     <tr>

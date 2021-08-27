@@ -143,6 +143,8 @@
                 </div>
                 <div class="modal-body">
                     <label for="message-text" class="col-form-label">Êtes-vous sûr de réserver cette activité ?</label>
+                    <?php $cost = $bdd->query("SELECT cost FROM activities WHERE id = " . $type . "")->fetch();?>
+                    <label for="message-text" class="col-form-label">Le prix de l'activité est de <?= $cost['cost'] ?>€</label>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

@@ -10,9 +10,9 @@ require_once('../lib/PHPMailer/src/Exception.php');
 require_once(dirname(__DIR__) . "/utils/database.php");
 $bdd = getDatabaseConnection();
 
-$q = "SELECT id_member FROM schedule WHERE id_trainer = ? AND start = ? AND end = ?";
+$q = "SELECT id_member FROM schedule WHERE id_trainer = " . $_GET['id_trainer'] . " AND start = '". $_GET['start'] ."'";
 $req = $bdd->prepare($q);
-$req->execute([$_GET['id_trainer'], $_GET['start'], $_GET['end']]);
+$req->execute();
 $results = $req->fetchAll();
 
 foreach ($results as $key => $members){
@@ -23,16 +23,15 @@ foreach ($results as $key => $members){
 
     if ($_GET['mode'] !== NULL){
         if ($_GET['mode'] == 'solo'){
-            $q3 = "UPDATE members SET soloHours - 2 WHERE id = ?";
+            $q3 = "UPDATE members SET soloHours = soloHours - 2 WHERE id = ?";
             $req3 = $bdd->prepare($q3);
             $req3->execute([$members['id_member']]);
         }else {
-            $q4 = "UPDATE members SET trainingHours - 2 WHERE id = ?";
+            $q4 = "UPDATE members SET trainingHours = trainingHours - 2 WHERE id = ?";
             $req4 = $bdd->prepare($q4);
             $req4->execute([$members['id_member']]);
         }
     }
-
 
     foreach ($results2 as $key => $mails){
         $email = new PHPMailer();
@@ -45,9 +44,9 @@ foreach ($results as $key => $members){
     }
 }
 
-$q3 = "DELETE FROM schedule WHERE id_trainer = ? AND start = ? AND end = ?";
+$q3 = "DELETE FROM schedule WHERE id_trainer = ? AND start = ?";
 $req3 = $bdd->prepare($q3);
-$req3->execute([$_GET['id_trainer'], $_GET['start'], $_GET['end']]);
+$req3->execute([$_GET['id_trainer'], $_GET['start']]);
 
 
 header('location: /AeroClub/trainer_space.php')

@@ -81,7 +81,7 @@
 
     <ul class="nav col-md-4 justify-content-end">
       <li class="nav-item"><a href="/AeroClub/index.php" class="nav-link px-2 text-muted">Accueil</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Nos avions</a></li>
+      <li class="nav-item"><a href="/AeroClub/planes.php" class="nav-link px-2 text-muted">Nos avions</a></li>
       <li class="nav-item"><a href="/AeroClub/Downloads/Tarifs.pdf" class="nav-link px-2 text-muted" download>Tarifs</a></li>
       <?php if (!isset($_SESSION['user'])) { ?>
         <ul class="navbar-nav">

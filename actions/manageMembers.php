@@ -26,6 +26,8 @@ require_once('../utils/database.php');
                 $results = $req->fetchAll();
                 ?>
                 <h2 style="text-align: center;">Liste des membres :</h2>
+                <a href="/AeroClub/trainer_space.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">&lt;</a>
+
                 <ul>
                     <table class="table">
                         <thead class="thead-dark">
@@ -45,7 +47,7 @@ require_once('../utils/database.php');
                                     <td><?= $members['mail']; ?> </td>
                                     <td><?= $members['level']; ?> </td>
                                     <td>
-                                        <a href="seeDetails.php?id_member=<?php echo $members['id'] ?>" class="btn btn-primary"><i class="far fa-eye" style="text-align: center"></i></a>
+                                        <a href="seeDetails.php?id_member=<?php echo $members['id'] ?>" class="btn btn-primary buttonColor"><i class="far fa-eye" style="text-align: center"></i></a>
                                         <a onClick="javascript: return confirm('Veuillez comfirmer la suppression');" href="deleteMember.php?id_member=<?php echo $members['id'] ?>" class="btn btn-danger"><i class="fas fa-trash" style="text-align: center"></i></a>
                                     </td>
                                 </tr>

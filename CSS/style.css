@@ -1,3 +1,15 @@
 .cursor-pointer{
     cursor: pointer;
   }
+
+.buttonColor{
+  background-color: #B8CCCF;
+  border-color: #B8CCCF;
+  color: #000;
+}
+
+.buttonColor:hover{
+  background-color: #92abaf;
+  border-color: #92abaf;
+  color: #fff;
+}

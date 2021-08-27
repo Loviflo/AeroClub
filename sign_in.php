@@ -67,7 +67,7 @@
                     Veuillez indiquez votre âge.
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="submit" class="btn btn-primary buttonColor">Valider</button>
         </form>
     </div>
     <?php include("utils/footer.php"); ?>

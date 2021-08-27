@@ -26,6 +26,7 @@ require('utils/database.php');
                 <?php echo isset($_GET['ifail'])?$_GET['ifail']:null; ?>
                 <h1 style="text-align: center;">Espace Membre</h1>
                 <h2 style="text-align: center;">Mon compte</h2>
+                <a href="/AeroClub/member_space.php" class="btn btn-primary mb-2" style="background-color: #B8CCCF; border-color:#B8CCCF;">&lt;</a>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -53,7 +54,7 @@ require('utils/database.php');
             </div>
         </div>
         <div style="text-align: center">
-            <a class="btn btn-primary" href="actions/updateInfo.php">Modifier mes informations</a>
+            <a class="btn btn-primary mt-2 buttonColor" href="actions/updateInfo.php">Modifier mes informations</a>
         </div>
         <?php include("utils/footer.php"); ?>
     </body>
