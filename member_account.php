@@ -41,6 +41,13 @@ require('utils/database.php');
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Mail : <?= $member['mail'] ?></li>
                         <li class="list-group-item">Votre niveau : <?= $member['level'] ?></li>
+                        <li class="list-group-item">Votre license :
+                            <?php if ($member['additionalCost'] == 74){
+                                echo 'License simple (' . $member['additionalCost'] . ' EUR)';
+                            }else{
+                                echo 'License + revue (' . $member['additionalCost'] . ' EUR)';
+                            }
+                            ?></li>
                     </ul>
                 </div>
             </div>

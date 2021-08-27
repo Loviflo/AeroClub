@@ -52,6 +52,17 @@ $db = getDatabaseConnection();
                     </div -->
                 </li>
                 <li class="list-group-item">Votre niveau : <?= $member['level'] ?></li>
+                <li class="list-group-item">Votre license :
+                    <?php if ($member['additionalCost'] == 74){
+                        echo 'License simple (' . $member['additionalCost'] . ' EUR)';
+                    }else{
+                        echo 'License + revue (' . $member['additionalCost'] . ' EUR)';
+                    }?>
+                    <select name="license" id="licenseSend" onchange="success()">
+                        <option value="74" <?php if ($member['additionalCost'] == 74) echo 'id="selected"' . ' selected';?>>License simple (74 EUR)</option>
+                        <option value="114" <?php if ($member['additionalCost'] == 114) echo 'id="selected"' . ' selected';?>>License + revue mensuelle (114 EUR)</option>
+                    </select>
+                </li>
                 <li class="list-group-item">Mot de passe
                     <div class="form-group mb-3">
                         <input onkeyup="success()" type="password" class="form-control" id="password" placeholder="Nouveau mot de passe..." name="password">
@@ -83,6 +94,10 @@ $db = getDatabaseConnection();
             document.getElementById('button').disabled = false;
         }else{
             document.getElementById('pswdConfirm').required = false;
+        }
+        let defaultAttribute = document.getElementById("selected");
+        if (document.getElementById("licenseSend").options[ document.getElementById("licenseSend").selectedIndex ].value !== defaultAttribute.value){
+            document.getElementById('button').disabled = false;
         }
     }
 </script>

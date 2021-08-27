@@ -98,11 +98,17 @@ if (count($results) == 0){
 
                 if ($results2[0]['payed'] == 0){
                     $cotisation = getAge($results2[0]['birthDate']) < 21? 178: 218;
+                    $license = $results2[0]['additionalCost'];
                 }else{
                     $cotisation = 0;
+                    $license = 0;
                 }
                 $pdf->SetFont('Arial','',12);
                 $pdf->Cell(40, 10, 'Cotisation :' . $cotisation . ' EUR');
+                $pdf->Ln();
+
+                $pdf->SetFont('Arial','',12);
+                $pdf->Cell(40, 10, 'Licence :' . $license . ' EUR');
                 $pdf->Ln();
 
                 $q4 = 'UPDATE members SET payed = 1 WHERE id = ?';
@@ -141,11 +147,17 @@ if (count($results) == 0){
     }
     if ($results2[0]['payed'] == 0){
         $cotisation = getAge($results2[0]['birthDate']) < 21? 178: 218;
+        $license = $results2[0]['additionalCost'];
     }else{
         $cotisation = 0;
+        $license = 0;
     }
     $pdf->SetFont('Arial','',12);
     $pdf->Cell(40, 10, 'Cotisation :' . $cotisation . ' EUR');
+    $pdf->Ln();
+
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(40, 10, 'Licence :' . $license . ' EUR');
     $pdf->Ln();
 
     $q4 = 'UPDATE members SET payed = 1 WHERE id = ?';

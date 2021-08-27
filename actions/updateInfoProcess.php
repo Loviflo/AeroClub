@@ -27,6 +27,13 @@ if (isset($_POST['lastname'])){
     $req->execute([$email, $_SESSION['user']['id']]);
 }*/
 
+if (isset($_POST['license'])){
+    $license = $_POST['lastname'];
+    $q = 'UPDATE members SET additionalCost = ? WHERE id = ?';
+    $req = $db->prepare($q);
+    $req->execute([$license, $_SESSION['user']['id']]);
+}
+
 if (isset($_POST['password']) && isset($_POST['passwordConf'])){
     if ($_POST['password'] === $_POST['passwordConf']){
         $password = hash('sha512', $_POST['password']);
@@ -37,6 +44,8 @@ if (isset($_POST['password']) && isset($_POST['passwordConf'])){
         header('location: ../member_account.php?ifail=Les mots de passe ne correspondent pas');
     }
 }
+
+
 
 header('location: ../member_account.php');
 exit();
