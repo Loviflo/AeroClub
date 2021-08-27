@@ -48,7 +48,7 @@
 
     require 'src/Calendar/Week.php';
     require 'src/Calendar/Activities.php';
-    $type = $_GET['type'];
+    $type = isset($_GET['type']) ? $_GET['type'] :null;
     $activities = new Calendar\Activities();
     $hours = new Calendar\Activities();
     $week = new Calendar\Week($_GET["year"] ?? null, $_GET["week"] ?? null);
