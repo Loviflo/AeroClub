@@ -21,6 +21,19 @@ foreach ($results as $key => $members){
     $req2->execute([$members['id_member']]);
     $results2 = $req2->fetchAll();
 
+    if ($_GET['mode'] !== NULL){
+        if ($_GET['mode'] == 'solo'){
+            $q3 = "UPDATE members SET soloHours - 2 WHERE id = ?";
+            $req3 = $bdd->prepare($q3);
+            $req3->execute([$members['id_member']]);
+        }else {
+            $q4 = "UPDATE members SET trainingHours - 2 WHERE id = ?";
+            $req4 = $bdd->prepare($q4);
+            $req4->execute([$members['id_member']]);
+        }
+    }
+
+
     foreach ($results2 as $key => $mails){
         $email = new PHPMailer();
         $email->SetFrom('Aeroclub@aeroclub.com');
