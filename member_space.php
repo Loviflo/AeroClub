@@ -17,7 +17,7 @@ require_once('utils/database.php');
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="Images/account.png" class="card-img-top" alt="Account Icon" style="width: 50%">
                 <div class="card-body">
                     <h5 class="card-title">Votre compte</h5>
                     <a href="/AeroClub/member_account.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
@@ -35,7 +35,7 @@ require_once('utils/database.php');
         </div>
         <div class="col-lg-4">
             <div class="card">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="Images/training.png" class="card-img-top" alt="Training Icon" style="width: 50%">
                 <div class="card-body">
                     <h5 class="card-title">Votre formation</h5>
                     <a href="/AeroClub/member_stats.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
