@@ -13,3 +13,9 @@
   border-color: #92abaf;
   color: #fff;
 }
+
+.buttonColor:active{
+  background-color: #92abaf;
+  border-color: #92abaf;
+  color: #fff;
+}
