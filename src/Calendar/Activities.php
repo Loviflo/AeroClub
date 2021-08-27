@@ -59,7 +59,7 @@ class Activities
      * @return array
      */
 
-    public function getActivitiesByHour(\DateTime $start, \DateTime $end, ?String $type, ?String $year, ?String $week): array
+    public function getActivitiesByHour(\DateTime $start, \DateTime $end, ?String $type, ?String $year, ?String $week, String $idUser): array
     {
         $activities = $this->getActivitiesBetween($start, $end, $type);
         for ($days = 1; $days < 8; $days++) {
@@ -126,6 +126,11 @@ class Activities
                     $sql = "SELECT count(*) as count,max(id_activity) as type FROM `schedule` WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' and id_plane = 2";
                     $freePlane2 = $db->query($sql)->fetch();
                 }
+                $sql = "SELECT count(*) as count FROM `schedule` WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' and id_member = " . $idUser . "";
+                $freeMember = $db->query($sql)->fetch();
+                if ($freeMember['count'] > 0 && $reserved[$days][$hours] != 2){
+                    $reserved[$days][$hours] = 1;
+                }
                 $sql = "SELECT COUNT(trainers.id) as count FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' AND id_trainer = trainers.id)";
                 $freeTrainers = $db->query($sql)->fetch();
                 if ($freeTrainers['count'] == 0 && $reserved[$days][$hours] != 2){
@@ -190,9 +195,6 @@ class Activities
             }
             $dateWeek->modify('+ 1 days');
         }
-        
-        
-
         return $reserved;
     }
 
