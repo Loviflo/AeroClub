@@ -21,7 +21,7 @@ require_once('utils/database.php');
         $bdd = getDatabaseConnection();
         $idMember = $_SESSION['user']['id'];
         $showOldActivites = isset($_GET['oldActivities']) ? null : " AND start > NOW()";
-        $sql = 'SELECT activities.type as type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, activities.cost as cost FROM schedule INNER JOIN activities ON schedule.id_activity = activities.id WHERE id_member = ' . $idMember . $showOldActivites . ' ORDER BY start DESC';
+        $sql = 'SELECT activities.type as type, start, DATE_FORMAT(start, "%Hh%i %d/%m/%Y") as startFormat, DATE_FORMAT(end, "%Hh%i %d/%m/%Y") as end, activities.cost as cost, schedule.id_trainer as id_trainer FROM schedule INNER JOIN activities ON schedule.id_activity = activities.id WHERE id_member = ' . $idMember . $showOldActivites . ' ORDER BY start DESC';
         $req = $bdd->prepare($sql);
         $req->execute();
         $activities = $req->fetchAll();
@@ -33,6 +33,7 @@ require_once('utils/database.php');
                 <thead>
                     <tr>
                         <th>Type</th>
+                        <th>Formateur</th>
                         <th>Début</th>
                         <th>Fin</th>
                         <th>Tarif</th>
@@ -46,6 +47,17 @@ require_once('utils/database.php');
                                 $i++;
                             } ?>>
                             <td scope="row"><?= $activity['type'] ?></td>
+                            <td><?php
+                                if ($activity['id_trainer'] !== NULL){
+                                    $sql2 = 'SELECT firstname, lastname FROM trainers WHERE id = ?';
+                                    $req2 = $bdd->prepare($sql2);
+                                    $req2->execute([$activity['id_trainer']]);
+                                    $trainer = $req2->fetch();
+                                    echo $trainer['firstname'] . ' ' . $trainer['lastname'];
+                                }else{
+                                    echo 'Activité solo';
+                                }
+                                 ?></td>
                             <td><?= $activity['startFormat'] ?></td>
                             <td><?= $activity['end'] ?></td>
                             <td><?= $activity['cost'] ?> €</td>

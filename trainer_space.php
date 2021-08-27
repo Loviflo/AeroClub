@@ -59,9 +59,6 @@ require_once('utils/database.php');
                         </table>
                     </ul>
                 </div>
-                <div class="col">
-                    <h2 style="text-align: center;">Mes congés : </h2>
-                </div>
             </div>
             <div class="col" style="text-align: center">
                 <a onClick="javascript: return confirm('Attention cette action doit seulement être effectuer à la fin du mois');" class='btn btn-primary' href="<?php echo 'actions/exportBill.php?start_month=' . $start_month . '&end_month='. $end_month?>">Exporter la facture des activités des membres</a>
