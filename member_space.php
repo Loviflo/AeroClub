@@ -16,30 +16,24 @@ require_once('utils/database.php');
     <h1 style="text-align: center;">Espace Membre</h1>
     <div class="row">
         <div class="col-lg-4">
-            <div class="card">
-                <img src="Images/account.png" class="card-img-top" alt="Account Icon" style="width: 50%">
-                <div class="card-body">
-                    <h5 class="card-title">Votre compte</h5>
-                    <a href="/AeroClub/member_account.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
-                </div>
+            <img src="Images/account.png" class="card-img-top mx-auto d-block" alt="Account Icon" style="width: 50%">
+            <div class="text-center">
+                <h5 class="card-title mt-3">Votre compte</h5>
+                <a href="/AeroClub/member_account.php" class="btn btn-primary buttonColor mt-2">Voir</a>
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card">
-                <img src="/AeroClub/Images/calendar.png" class="card-img-top center" style="width:50%;" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Vos activités</h5>
-                    <a href="/AeroClub/memberActivities.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
-                </div>
+            <img src="/AeroClub/Images/calendar.png" class="card-img-top center mx-auto d-block" style="width:50%;" alt="...">
+            <div class="text-center">
+                <h5 class="card-title mt-3">Vos activités</h5>
+                <a href="/AeroClub/memberActivities.php" class="btn btn-primary buttonColor mt-2">Voir</a>
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card">
-                <img src="Images/training.png" class="card-img-top" alt="Training Icon" style="width: 50%">
-                <div class="card-body">
-                    <h5 class="card-title">Votre formation</h5>
-                    <a href="/AeroClub/member_stats.php" class="btn btn-primary" style="background-color: #B8CCCF; border-color:#B8CCCF;">Voir</a>
-                </div>
+            <img src="Images/training.png" class="card-img-top mx-auto d-block" alt="Training Icon" style="width: 50%">
+            <div class="text-center">
+                <h5 class="card-title mt-3">Votre formation</h5>
+                <a href="/AeroClub/member_stats.php" class="btn btn-primary buttonColor mt-2">Voir</a>
             </div>
         </div>
     </div>
