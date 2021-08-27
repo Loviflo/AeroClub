@@ -60,7 +60,7 @@
     $yearGET = $week->year;
     $getWeek = isset($_GET['week']) ? $_GET['week'] : $week->week;
     $getYear = isset($_GET['year']) ? $_GET['year'] : $week->year;
-    $reserved = $hours->getActivitiesByHour($start, $end, $type, $getYear, $getWeek);
+    $reserved = $hours->getActivitiesByHour($start, $end, $type, $getYear, $getWeek, $_SESSION['user']['id']);
     ?>
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
