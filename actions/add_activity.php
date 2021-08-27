@@ -68,6 +68,14 @@ if ($mode != 'solo') {
 }
 $idTrainer = isset($result['id']) ? $result['id'] : null;
 
+if ($type == 9) {
+    $sql = "SELECT count(*) as count, max(id_trainer) as trainer FROM `schedule` WHERE start = '". $dateStart . "' and id_activity = 9";
+    $trainer = $db->query($sql)->fetch();
+    if ($trainer['count'] > 0) {
+        $idTrainer = $trainer['trainer'];
+    }
+}
+
 $q = 'INSERT INTO schedule (id_activity,start,end,id_member,id_trainer,id_plane,mode) VALUES (?, ?, ?, ?, ?, ?, ?)';
 $req = $db->prepare($q);
 $req->execute([$type, $dateStart, $dateEnd, $idMember, $idTrainer, $plane, $mode]);

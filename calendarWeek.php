@@ -10,7 +10,8 @@
     ?>
 </head>
 
-<body class="d-flex flex-column h-100"> <?php include 'utils/header.php'; ?>
+<body class="d-flex flex-column h-100"> 
+    <?php include 'utils/header.php'; ?>
     <?php
 
     require_once('utils/database.php');
@@ -63,7 +64,27 @@
     ?>
 
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
-        <h1><?= $week->toString(); ?></h1>
+        <?php 
+        switch ($type) {
+            case 2:
+                echo '<h1>Formation</h1>';
+                break;
+            case 3:
+                echo '<h1>ULM</h1>';
+                break;
+            case 4:
+                echo '<h1>Saut en parachute</h1>';
+                break;
+            case 9:
+                echo '<h1>Baptême de l\'air</h1>';
+                break;
+            
+            default:
+                echo '<h1>Toutes les activités</h1>';
+                break;
+        }
+        ?>
+        <h2><?= $week->toString(); ?></h2>
         <div>
             <a href="?week=<?= $week->previousWeek()->week; ?>&year=<?= $week->previousWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&lt;</a>
             <a href="?week=<?= $week->nextWeek()->week; ?>&year=<?= $week->nextWeek()->year; ?>&type=<?= $type ?>" class="btn btn-primary">&gt;</a>
