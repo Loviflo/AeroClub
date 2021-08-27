@@ -49,7 +49,9 @@ class Week
 
     public function toString(): string
     {
-        return $this->year . ' Semaine ' . $this->week;
+        $date = new \DateTime();
+        $date->setISODate("{$this->year}", "{$this->week}");
+        return 'Semaine ' . $this->week . ' du ' . $date->format('d/m/Y') . ' au ' . $date->modify('+ 6 days')->format('d/m/Y');
     }
 
     /**

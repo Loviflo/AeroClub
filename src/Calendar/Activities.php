@@ -70,6 +70,77 @@ class Activities
 
         $db = getDatabaseConnection();
         
+        
+
+        foreach ($activities as $activity) {
+            $activityStart = new \DateTime($activity['start']);
+            $activityHour = $activityStart->format('H');
+
+
+            switch ($activityHour) {
+                case '10':
+                    $activityHour = 1;
+                    break;
+                case '12':
+                    $activityHour = 2;
+                    break;
+                case '14':
+                    $activityHour = 3;
+                    break;
+                case '16':
+                    $activityHour = 4;
+                    break;
+                case '18':
+                    $activityHour = 5;
+                    break;
+            }
+            $activityDay = $activityStart->format('N');
+            if ($activity['id_member'] == $_SESSION['user']['id']) {
+                $reserved[$activityDay][$activityHour] = 2;
+            } else if ($type == 3 || $type == 9) {
+                switch ($reserved[$activityDay][$activityHour]) {
+                    case 0:
+                        $reserved[$activityDay][$activityHour] = 3;
+                        break;
+                    case 3:
+                        $reserved[$activityDay][$activityHour] = 1;
+                        break;
+                }
+            } else {
+                $reserved[$activityDay][$activityHour] = 1;
+            }
+
+        }
+        
+        $dateWeek2 = new \DateTime();
+        $dateWeek2->setISODate("{$year}", "{$week}");
+        for ($days = 1; $days < 8; $days++) {
+            $dateWeekFormat = $dateWeek2->format('Y-m-d');
+            for ($hours = 1; $hours < 6; $hours++) {
+                $sql = "SELECT COUNT(trainers.id) as count FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' AND id_trainer = trainers.id)";
+                $freeTrainers = $db->query($sql)->fetch();
+                if ($type == 3) {
+                    $sql = "SELECT count(*) as count FROM `schedule` WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' and id_plane in (3,4)";
+                    $freePlaneULM = $db->query($sql)->fetch();
+                } else if ($type == 4 || $type == 9) {
+                    $sql = "SELECT count(*) as count,max(id_activity) as type FROM `schedule` WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' and id_plane = 2";
+                    $freePlane2 = $db->query($sql)->fetch();
+                }
+                $sql = "SELECT COUNT(trainers.id) as count FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' AND id_trainer = trainers.id)";
+                $freeTrainers = $db->query($sql)->fetch();
+                if ($freeTrainers['count'] == 0 && $reserved[$days][$hours] != 2){
+                    $reserved[$days][$hours] = 1;
+                }
+                if ((isset($freePlaneULM['count']) && $freePlaneULM['count'] == 2) && $reserved[$days][$hours] != 2){
+                    $reserved[$days][$hours] = 1;
+                }
+                if ((isset($freePlane2['count']) && $freePlane2['count'] == 1) && $reserved[$days][$hours] != 2 && ($type != 9 || ($type == 9 && $freePlane2['type'] != 9))) {
+                    $reserved[$days][$hours] = 1;
+                }
+            }
+            $dateWeek2->modify('+ 1 days');
+        }
+
         $easterDate = new \DateTime();
         $easterDate->setTimestamp(easter_date($year));
         $easterDate->format('U = Y-m-d');
@@ -118,75 +189,6 @@ class Activities
                 }
             }
             $dateWeek->modify('+ 1 days');
-        }
-
-        foreach ($activities as $activity) {
-            $activityStart = new \DateTime($activity['start']);
-            $activityHour = $activityStart->format('H');
-
-
-            switch ($activityHour) {
-                case '10':
-                    $activityHour = 1;
-                    break;
-                case '12':
-                    $activityHour = 2;
-                    break;
-                case '14':
-                    $activityHour = 3;
-                    break;
-                case '16':
-                    $activityHour = 4;
-                    break;
-                case '18':
-                    $activityHour = 5;
-                    break;
-            }
-            $activityDay = $activityStart->format('N');
-            if ($activity['id_member'] == $_SESSION['user']['id']) {
-                $reserved[$activityDay][$activityHour] = 2;
-            } else if ($type == 3 || $type == 4 || $type == 9) {
-                switch ($reserved[$activityDay][$activityHour]) {
-                    case 0:
-                        $reserved[$activityDay][$activityHour] = 3;
-                        break;
-                    case 3:
-                        $reserved[$activityDay][$activityHour] = 1;
-                        break;
-                }
-            } else {
-                $reserved[$activityDay][$activityHour] = 1;
-            }
-
-        }
-        
-        $dateWeek2 = new \DateTime();
-        $dateWeek2->setISODate("{$year}", "{$week}");
-        for ($days = 1; $days < 8; $days++) {
-            $dateWeekFormat = $dateWeek2->format('Y-m-d');
-            for ($hours = 1; $hours < 6; $hours++) {
-                $sql = "SELECT COUNT(trainers.id) as count FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' AND id_trainer = trainers.id)";
-                $freeTrainers = $db->query($sql)->fetch();
-                if ($type == 3) {
-                    $sql = "SELECT count(*) as count FROM `schedule` WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' and id_plane in (3,4)";
-                    $freePlaneULM = $db->query($sql)->fetch();
-                } else if ($type == 4 || $type == 9) {
-                    $sql = "SELECT count(*) as count FROM `schedule` WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' and id_plane = 2";
-                    $freePlane2 = $db->query($sql)->fetch();
-                }
-                $sql = "SELECT COUNT(trainers.id) as count FROM trainers WHERE NOT EXISTS (SELECT * FROM schedule WHERE start = '". $dateWeekFormat . " " . strval(10+($hours-1)*2) . ":00:00" ."' AND id_trainer = trainers.id)";
-                $freeTrainers = $db->query($sql)->fetch();
-                if ($freeTrainers['count'] == 0 && $reserved[$days][$hours] != 2){
-                    $reserved[$days][$hours] = 1;
-                }
-                if ((isset($freePlaneULM['count']) && $freePlaneULM['count'] == 2) && $reserved[$days][$hours] != 2){
-                    $reserved[$days][$hours] = 1;
-                }
-                if ((isset($freePlane2['count']) && $freePlane2['count'] == 1) && $reserved[$days][$hours] != 2){
-                    $reserved[$days][$hours] = 1;
-                }
-            }
-            $dateWeek2->modify('+ 1 days');
         }
         
         

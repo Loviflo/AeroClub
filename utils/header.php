@@ -7,9 +7,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Efdsfsf</a>
-                    </li>
                     <?php if (isset($_SESSION['user']) && $_SESSION['user']['rank'] == 'member') { ?>
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
@@ -48,7 +45,11 @@
                                 <a class="dropdown-item" href="/AeroClub/sign_in.php">Vous êtes nouveau ici ? Inscrivez-vous</a>
                             </div>
                         </li>
-                        <?php } else {
+                        <?php } else { ?>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#">Bonjour <?= $_SESSION['user']['mail']; ?></a>
+                            </li>
+                        <?php
                         if ($_SESSION['user']['rank'] == 'trainer') { ?>
                             <li class="nav-item d-flex">
                                 <a class="nav-link" href="/AeroClub/trainer_space.php">Mon espace</a>
