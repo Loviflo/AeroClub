@@ -21,13 +21,19 @@ require_once('utils/database.php');
         $trainingHours = $bdd->query("SELECT trainingHours From members WHERE id = '$id' LIMIT 1")->fetch();
         $level = $bdd->query("SELECT level From members WHERE id = '$id' LIMIT 1")->fetch();
 
-        if ($level['level'] === "Aucun Brevet"){
-            $toStringLevel = "Brevet de Base";
-        }elseif ($level['level'] === "Brevet de Base"){
-            $toStringLevel = "License Pilote D'avion léger";
-        }elseif ($level['level'] === "License Pilote D'avion léger"){
-            $toStringLevel = "Brevet de Pilote Privé";
+        if ($level['level'] !== "Brevet de Pilote Privé"){
+            if ($level['level'] === "Aucun Brevet"){
+                $toStringLevel = "Brevet de Base";
+            }elseif ($level['level'] === "Brevet de Base"){
+                $toStringLevel = "License Pilote D'avion léger";
+            }elseif ($level['level'] === "License Pilote D'avion léger"){
+                $toStringLevel = "Brevet de Pilote Privé";
+            }
+        }else{
+            $nothingleft = true;
+            $toStringLevel = "Vous avez déjà atteint le meilleur brevet";
         }
+
 
         $q = "SELECT soloRequired From activities WHERE name = ? LIMIT 1";
         $req = $bdd->prepare($q);
@@ -58,8 +64,20 @@ require_once('utils/database.php');
                         <td><?= $soloHours['soloHours']; ?></td>
                         <td><?= $trainingHours['trainingHours']; ?></td>
                         <td><?= $toStringLevel; ?></td>
-                        <td><?= ($soloRequired['soloRequired'] - $soloHours['soloHours']) <= 0? 0: $soloRequired['soloRequired'] - $soloHours['soloHours']; ?></td>
-                        <td><?= ($trainingRequired['trainingRequired'] - $trainingHours['trainingHours']) <= 0? 0: $trainingRequired['trainingRequired'] - $trainingHours['trainingHours']; ?></td>
+                        <td><?php
+                            if(!$nothingleft){
+                                ($soloRequired['soloRequired'] - $soloHours['soloHours']) <= 0? 0: $soloRequired['soloRequired'] - $soloHours['soloHours'];
+                            }else{
+                                echo '-';
+                            }
+                             ?></td>
+                        <td><?php
+                            if(!$nothingleft){
+                                ($trainingRequired['trainingRequired'] - $trainingHours['trainingHours']) <= 0? 0: $trainingRequired['trainingRequired'] - $trainingHours['trainingHours'];
+                            }else{
+                                echo '-';
+                            }
+                             ?></td>
                     </tr>
                 </tbody>
             </table>
