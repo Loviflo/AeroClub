@@ -27,6 +27,7 @@ $db = getDatabaseConnection();
     <div class="container">
         <h1 style="text-align: center;">Espace Membre</h1>
         <h2 style="text-align: center;">Modifier mes informations</h2>
+        <a href="/AeroClub/member_account.php" class="btn btn-primary mb-2" style="background-color: #B8CCCF; border-color:#B8CCCF;">&lt;</a>
         <form class="card" action="updateInfoProcess.php" method="post">
             <div class="card-body">
                 <div class="row">
@@ -52,15 +53,15 @@ $db = getDatabaseConnection();
                     </div -->
                 </li>
                 <li class="list-group-item">Votre niveau : <?= $member['level'] ?></li>
-                <li class="list-group-item">Votre license :
+                <li class="list-group-item">Votre licence :
                     <?php if ($member['additionalCost'] == 74){
-                        echo 'License simple (' . $member['additionalCost'] . ' EUR)';
+                        echo 'Licence simple (' . $member['additionalCost'] . ' EUR)';
                     }else{
-                        echo 'License + revue (' . $member['additionalCost'] . ' EUR)';
+                        echo 'Licence + revue (' . $member['additionalCost'] . ' EUR)';
                     }?>
-                    <select name="license" id="licenseSend" onchange="success()">
-                        <option value="74" <?php if ($member['additionalCost'] == 74) echo 'id="selected"' . ' selected';?>>License simple (74 EUR)</option>
-                        <option value="114" <?php if ($member['additionalCost'] == 114) echo 'id="selected"' . ' selected';?>>License + revue mensuelle (114 EUR)</option>
+                    <select class="form-control" name="license" id="licenseSend" onchange="success()">
+                        <option value="74" <?php if ($member['additionalCost'] == 74) echo 'id="selected"' . ' selected';?>>Licence simple (74 EUR)</option>
+                        <option value="114" <?php if ($member['additionalCost'] == 114) echo 'id="selected"' . ' selected';?>>Licence + revue mensuelle (114 EUR)</option>
                     </select>
                 </li>
                 <li class="list-group-item">Mot de passe
@@ -69,7 +70,7 @@ $db = getDatabaseConnection();
                         <input onkeyup="success()" type="password" class="form-control" id="pswdConfirm" placeholder="Retapez votre mot de passe..." name="passwordConf">
                     </div>
                 </li>
-                <li class="list-group-item"><button id="button" type="submit" class="btn btn-primary" disabled>Valider</button></li>
+                <li class="list-group-item"><button id="button" type="submit" class="btn btn-primary buttonColor" disabled>Valider</button></li>
             </ul>
         </form>
         </div>
@@ -103,6 +104,3 @@ $db = getDatabaseConnection();
 </script>
 
 </html>
-
-
-

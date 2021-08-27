@@ -42,11 +42,11 @@ require('utils/database.php');
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Mail : <?= $member['mail'] ?></li>
                         <li class="list-group-item">Votre niveau : <?= $member['level'] ?></li>
-                        <li class="list-group-item">Votre license :
+                        <li class="list-group-item">Votre licence :
                             <?php if ($member['additionalCost'] == 74){
-                                echo 'License simple (' . $member['additionalCost'] . ' EUR)';
+                                echo 'Licence simple (' . $member['additionalCost'] . ' EUR)';
                             }else{
-                                echo 'License + revue (' . $member['additionalCost'] . ' EUR)';
+                                echo 'Licence + revue (' . $member['additionalCost'] . ' EUR)';
                             }
                             ?></li>
                     </ul>
