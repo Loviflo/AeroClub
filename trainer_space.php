@@ -5,6 +5,8 @@ $year = date('Y');
 $start_month = $year . '-' . $month . '-' . "01";
 $end_month = $year . '-' . $month . '-' . $days;
 
+$now = new dateTime("now", new dateTimezone('Europe/Paris'));
+
 ini_set('display_errors', 1);
 require_once('utils/database.php');
 ?>
@@ -23,9 +25,9 @@ require_once('utils/database.php');
                 <div class="col">
                     <?php
                         $bdd = getDatabaseConnection();
-                        $q = 'SELECT * FROM schedule WHERE id_trainer = ? ORDER BY schedule.start ASC';
+                        $q = 'SELECT * FROM schedule WHERE id_trainer = ? AND start > ? ORDER BY schedule.start ASC';
                         $req = $bdd->prepare($q);
-                        $req->execute([$_SESSION['user']['id']]);
+                        $req->execute([$_SESSION['user']['id'], $now->format('Y-m-d H:i:s')]);
                         $results = $req->fetchAll();
                     ?>
                     <h2 style="text-align: center;">Mes heures de cours : </h2>

@@ -1,6 +1,8 @@
 <?php
 ini_set('display_errors', 1);
 require_once('../utils/database.php');
+
+$now = new dateTime("now", new dateTimezone('Europe/Paris'));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,7 +19,7 @@ require_once('../utils/database.php');
     $bdd = getDatabaseConnection();
     $q = 'SELECT * FROM members WHERE id = ?';
     $req = $bdd->prepare($q);
-    $req->execute([$_SESSION['user']['id']]);
+    $req->execute([$_GET['id_member']]);
     $member = $req->fetch();
     ?>
     <div class="container">
@@ -43,9 +45,9 @@ require_once('../utils/database.php');
             </ul>
         </div>
         <?php
-        $q2 = 'SELECT * FROM schedule WHERE id_member = ? ORDER BY schedule.start ASC';
+        $q2 = 'SELECT * FROM schedule WHERE id_member = ? AND start > ? ORDER BY schedule.start ASC';
         $req2 = $bdd->prepare($q2);
-        $req2->execute([$_GET['id_member']]);
+        $req2->execute([$_GET['id_member'], $now->format('Y-m-d H:i:s')]);
         $results2 = $req2->fetchAll(); ?>
         <h2 style="text-align: center;">Activités du mois</h2>
         <ul>
