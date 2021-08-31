@@ -13,7 +13,7 @@
 <body class="d-flex flex-column h-100"> 
     <?php include 'utils/header.php'; ?>
     <?php
-
+    $nothingleft = false;
     require_once('utils/database.php');
 
     $bdd = getDatabaseConnection();
@@ -22,29 +22,38 @@
     $trainingHours = $bdd->query("SELECT trainingHours From members WHERE id = '$id' LIMIT 1")->fetch();
     $level = $bdd->query("SELECT level From members WHERE id = '$id' LIMIT 1")->fetch();
 
-    if ($level['level'] === "Aucun Brevet"){
-        $toStringLevel = "Brevet de Base";
-    }elseif ($level['level'] === "Brevet de Base"){
-        $toStringLevel = "License Pilote D'avion léger";
-    }elseif ($level['level'] === "License Pilote D'avion léger"){
-        $toStringLevel = "Brevet de Pilote Privé";
+    if ($level['level'] !== "Brevet de Pilote Privé"){
+        if ($level['level'] === "Aucun Brevet"){
+            $toStringLevel = "Brevet de Base";
+        }elseif ($level['level'] === "Brevet de Base"){
+            $toStringLevel = "License Pilote d'avion léger";
+        }elseif ($level['level'] === "License Pilote d'avion léger"){
+            $toStringLevel = "Brevet de Pilote Privé";
+        }
+    }else{
+        $nothingleft = true;
+        $toStringLevel = "Vous avez déjà atteint le meilleur brevet";
     }
-    $q = "SELECT soloRequired From activities WHERE name = ? LIMIT 1";
-    $req = $bdd->prepare($q);
-    $req->execute([$toStringLevel]);
-    $soloRequired = $req->fetch();
 
-    $q2 = "SELECT trainingRequired From activities WHERE name = ? LIMIT 1";
-    $req2 = $bdd->prepare($q2);
-    $req2->execute([$toStringLevel]);
-    $trainingRequired = $req2->fetch();
+    if(!$nothingleft){
+        $q = "SELECT soloRequired From activities WHERE name = ? LIMIT 1";
+        $req = $bdd->prepare($q);
+        $req->execute([$toStringLevel]);
+        $soloRequired = $req->fetch();
 
-    if (($soloRequired['soloRequired'] - $soloHours['soloHours']) <= 0 && ($trainingRequired['trainingRequired'] - $trainingHours['trainingHours']) <= 0){
-        echo "<script>alert(\"Félicitations ! Vous avez obtenu le prochain niveau de brevet! Rendez-vous dans 'Votre compte' pour consulter votre nouveau niveau \")</script>";
-        $q2 = 'UPDATE members SET soloHours = 0, trainingHours = 0, level = ? WHERE id = ?';
+        $q2 = "SELECT trainingRequired From activities WHERE name = ? LIMIT 1";
         $req2 = $bdd->prepare($q2);
-        $req2->execute([$toStringLevel, $_SESSION['user']['id']]);
+        $req2->execute([$toStringLevel]);
+        $trainingRequired = $req2->fetch();
+
+        if (($soloRequired['soloRequired'] - $soloHours['soloHours']) <= 0 && ($trainingRequired['trainingRequired'] - $trainingHours['trainingHours']) <= 0){
+            echo "<script>alert(\"Félicitations ! Vous avez obtenu le prochain niveau de brevet! Rendez-vous dans 'Votre compte' pour consulter votre nouveau niveau \")</script>";
+            $q2 = 'UPDATE members SET soloHours = 0, trainingHours = 0, level = ? WHERE id = ?';
+            $req2 = $bdd->prepare($q2);
+            $req2->execute([$toStringLevel, $_SESSION['user']['id']]);
+        }
     }
+
 
 
     require 'src/Calendar/Week.php';

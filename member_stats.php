@@ -26,8 +26,8 @@ require_once('utils/database.php');
             if ($level['level'] === "Aucun Brevet"){
                 $toStringLevel = "Brevet de Base";
             }elseif ($level['level'] === "Brevet de Base"){
-                $toStringLevel = "Licence Pilote d'avion léger";
-            }elseif ($level['level'] === "Licence Pilote d'avion léger"){
+                $toStringLevel = "License Pilote d'avion léger";
+            }elseif ($level['level'] === "License Pilote d'avion léger"){
                 $toStringLevel = "Brevet de Pilote Privé";
             }
         }else{
